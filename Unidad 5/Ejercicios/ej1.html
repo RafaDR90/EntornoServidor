@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Alta alumno:</h1>
+    <form action="ej1.php" method="post">
+        <p>
+            <label for="nombre">Nombre: </label>
+            <input type="text" id="nombre" name="datos[nombre]" required>
+        </p>
+        <p>
+            <label for="apellidos">Apellidos: </label>
+            <input type="text" id="apellidos" name="datos[apellidos]" required>
+        </p>
+        <p>
+            <label for="fechaNacimiento">Fecha de nacimiento: </label>
+            <input type="date" id="fechaNacimiento" name="datos[fecha]">
+        </p>
+        <p>
+            Que lenguajes de programacion conoces?
+            <label><input type="checkbox" name="lenguajes[]" value="C++" checked>C++</label>
+            <label><input type="checkbox" name="lenguajes[]" value="JavaScript">JavaScript</label>
+            <label><input type="checkbox" name="lenguajes[]" value="Php">Php</label>
+            <label><input type="checkbox" name="lenguajes[]" value="Python">Python</label>
+        </p>
+        <p>Sabes crear paginas web estaticas?
+            <label><input type="radio" name="info[paginasEstaticas]" value="Si" checked>Si</label>
+            <label><input type="radio" name="info[paginasEstaticas]" value="No">No</label>
+        </p>
+        <p>
+            <label for="comentarios">
+                <textarea id="comentarios" name="info[comentarios]" rows="4" cols="40"></textarea>
+            </label>
+        </p>
+        <p>
+            <label for="contraseña">Contraseña: </label>
+                <input type="password" id="contraseña" name="info[contraseña]" required>
+        </p>
+        <p>
+            <label for="repetirContraseña">Repita la contraseña: </label>
+            <input type="password" id="repetirContraseña" name="info[contraseña2]" required>
+        </p>
+        <input type="submit" value="Enviar">
+    </form>
+</body>
+</html>

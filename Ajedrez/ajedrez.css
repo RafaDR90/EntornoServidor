@@ -1,0 +1,20 @@
+table,td{border: 2px solid blue;
+border-collapse: collapse;
+}
+td{width: 50px;
+height: 50px;
+margin: 0 auto;
+padding: 0px;
+}
+td.blanca{
+    background-color: white;
+}
+td.gris{
+    background-color: #a5a5a5;
+}
+img{
+    opacity: 0.3;
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+}

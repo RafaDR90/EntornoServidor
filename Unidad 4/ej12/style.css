@@ -1,0 +1,8 @@
+img{
+    width: 60px;
+}
+#repartidas{
+    display: flex;
+    gap: 50px;
+    flex-wrap: wrap;
+}

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="POST" action="./selectMultiple.php">
+    <label for="idiomas[]">Idiomas Que hablas</label>
+
+    <select multiple size="2" name="idiomas[]" id="idiomas[]">
+        <option value="español">español</option>
+        <option value="ingles" selected>ingles</option>
+        <option value="frances">frances</option>
+    </select>
+    <input type="submit" value="Enviar">
+</form>
+</body>
+</html>

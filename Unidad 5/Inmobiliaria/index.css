@@ -1,0 +1,9 @@
+.lbl{
+    font-weight: bold;
+    width: 300px;
+    display: inline-block;
+    vertical-align: top;
+}
+.err{
+    color: red;
+}

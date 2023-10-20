@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <h1>Nuevo Contacto</h1>
+  <form id="myForm" action="FormularioContacto.php" method="post">
+      <p>
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" name="contacto[nombre]" minlength="3" required>
+      </p>
+      <p>
+        <label for="apellido">Apellido</label>
+        <input type="text" id="apellido" name="contacto[apellido]" minlength="3">
+      </p>
+      <p>
+        <label for="correo">Correo electronico</label>
+        <input type="email" id="correo" name="contacto[corro]">
+      </p>
+      <br>
+      <p>
+      <label for="metodoDePago">Selecciona metodo de pago</label>
+        <select name="pago[metodoDePago]" id="metodoDePago">
+            <option value="visa">VISA</option>
+            <option value="mastercard">MasterCard</option>
+          <option value="paypal">Paypal</option>
+        </select>
+      </p>
+      <p>
+          <label for="terminos">Aceptar los terminos y condiciones</label>
+          <input type="checkbox" id="terminos" name="contacto[terminos]" required>
+      </p>
+      <p>
+        <input type="submit" value="Enviar">
+      </p>
+  </form>
+</body>
+</html>

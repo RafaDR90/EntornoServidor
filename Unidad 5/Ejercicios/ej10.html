@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form action="ej10.php" method="post">
+        <p>
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre">
+        </p>
+        <p>
+            <label for="apellidos">Apellidos</label>
+            <input type="text" id="apellidos" name="apellidos">
+        </p>
+        <p>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email">
+        </p>
+        <p>
+            <label for="telefono">Telefono</label>
+            <input type="number" id="telefono" name="telefono">
+        </p>
+        <p>
+            <label>Empleo actual:</label>
+            <input type="radio" id="opcion1" name="empleoActual" value="Sin Empleo">
+            <label for="opcion1">Sin Empleo</label>
+
+            <input type="radio" id="opcion2" name="empleoActual" value="Media jornada">
+            <label for="opcion2">Media jornada</label>
+
+            <input type="radio" id="opcion3" name="empleoActual" value="Tiempo completo">
+            <label for="opcion3">Tiempo completo</label>
+        </p>
+        <p>
+            <label>Lenguajes:</label>
+            <input type="checkbox" id="Python" name="lenguaje[]" value="Python">
+            <label for="Python">Python</label>
+
+            <input type="checkbox" id="PHP" name="lenguaje[]" value="PHP">
+            <label for="PHP">PHP</label>
+
+            <input type="checkbox" id="JavaScript" name="lenguaje[]" value="JavaScript">
+            <label for="JavaScript">JavaScript</label>
+
+            <input type="checkbox" id="Java" name="lenguaje[]" value="Java">
+            <label for="Java">Java</label>
+
+            <input type="checkbox" id="C++" name="lenguaje[]" value="C++">
+            <label for="C++">C++</label>
+        </p>
+        <p>
+            <label for="url">URL de alguno de tus trabajos</label>
+            <input type="url" id="url" name="url" placeholder="Empieza con https:// o http://">
+        </p>
+        <p>
+            <input type="submit" value="Enviar formulario">
+        </p>
+    </form>
+</body>
+</html>
