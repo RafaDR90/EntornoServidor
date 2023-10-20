@@ -76,7 +76,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         if (!validarTipoCheckBox($extras,$extrasValidos)){
             $errores["extras"]="Extra no valido.";
         }
-    }$extras=[" "];
+    }else{
+        $extras=[" "];
+    }
 
     $archivo = $_FILES["foto"];
 
@@ -91,6 +93,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         if (!validarSonLetrasONumeros($observaciones)){
             $errores["observaciones"]="El texto introducido debe contener como maximo 500 caracteres los cuales pueden ser numeros,letras,puntos,comas,interrogantes y exclamaciones";
         }
+    }else{
+        $observaciones=" ";
     }
 
     $carpetaDestino = "Img/";
@@ -111,10 +115,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $datos=fopen("datos.txt","a");
         if($datos){
             $stringExtras = join(" ", $extras);
-            $texto = "$tipoVivienda;$zona;$direccion;$numeroDormitorios;$precio;$metrosCuadrados;$stringExtras;$observaciones\n";
-            fwrite($datos, $texto);
+            $texto = "$tipoVivienda;$zona;$direccion;$numeroDormitorios;$precio;$metrosCuadrados;$stringExtras;$observaciones;$nombreFoto\n";
+            fwrite($datos, $texto.'%');
+
         }
         fclose($datos);
+        header('Location: ViviendaSubida.php');
+        exit;
     }
 }
 
