@@ -127,9 +127,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
 function validarImagen(array $archivo): string|null
 {
-    if (!file_exists($archivo["tmp_name"])) {
-        return "Seleccione una foto.";
-    }
 
     if ($archivo["error"] !== 0) {
         return "Error al subir el archivo.";

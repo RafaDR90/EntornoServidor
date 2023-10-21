@@ -3,4 +3,6 @@ adosado;chana;albolote;3;33333;33;jardin garage;asd ad asass;202310201921-yo.jpg
 %adosado;sacromonte;albolote;3;10000;44;jardin garage;;202310202007-yo.jpg
 %adosado;realejo;asd;4;10000;111;garage;;202310202008-yo.jpg
 %adosado;zaidin;albolote;3;77777;66;jardin garage;uiyhiu;202310202010-yo.jpg
+%adosado;zaidin;albolote;4;33333;44;piscina jardin;;202310202018-yo.jpg
+%adosado;zaidin;albolote;4;12345;12;piscina jardin;;202310202018-yo.jpg
 %
