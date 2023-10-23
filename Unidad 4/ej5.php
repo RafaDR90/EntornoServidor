@@ -12,7 +12,7 @@ function mostrarAnimales($array){
 mostrarAnimales($animales);
 $animalAEliminar=rand(0,count($animales));
 $animalCodigoAEliminar=$animales[$animalAEliminar];
-echo "<br>Animal a eliminar: ".$animales[$animalAEliminar];
+echo "<br>Animales a eliminar: ".$animales[$animalAEliminar];
 
 foreach ($animales as $key => $valor){
     if($valor==$animalCodigoAEliminar){

@@ -31,6 +31,7 @@ function saneaYValidaNombresPOST( $nombreAValidar, &$nombreValidado, array &$err
 }
 
 
+
 /**
  * Funcion que sanea y valida un nombre, en caso de error retorna un string con el error.
  * @param $nombreAValidar string con el nombre a validar
