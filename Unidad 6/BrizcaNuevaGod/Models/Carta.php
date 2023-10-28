@@ -24,8 +24,9 @@ class carta{
 
     public function getPalo(): string
     {
-        return $this->palo;
+        return strtolower($this->palo);
     }
+
 
     public function setPalo(string $palo): void
     {
@@ -35,6 +36,8 @@ class carta{
     public function getNumeroString():string{
         return self::NUMEROS[$this->getNumero()];
     }
+
+
 
 
     public static function comprobarPalo(string $palo):bool{
