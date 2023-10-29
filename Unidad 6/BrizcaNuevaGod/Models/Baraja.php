@@ -3,9 +3,11 @@
 namespace Models;
 
 class Baraja{
-
+public array $baraja=[];
+    /**
+     *
+     */
     public function __construct(){
-        $baraja=[];
         $palos=Carta::PALOS;
         for ($i=0;$i<sizeof($palos);$i++){
             for ($j=1;$j<=12;$j++){
@@ -26,7 +28,7 @@ class Baraja{
         $this->baraja = $baraja;
     }
 
-    public function barajar($baraja){
-        return shuffle($baraja);
+    public function barajar(){
+        return shuffle($this->baraja);
     }
 }

@@ -2,14 +2,24 @@
 require_once "AutoLoad.php";
 use Models\Carta,
     Models\Baraja,
-    Controllers\barajaController;
+    Controllers\barajaController,
+    Controllers\indexController;
+
 
 //$baraja1=new \Models\Baraja();
 //var_dump($baraja1);
+$barajarController=new barajaController();
+if (!isset($_GET["action"])){
+    $indexController= new indexController;
+    $indexController->showIndex();
+}
 
-$controlador=new barajaController();
-$controlador->mostrarBaraja();
+//$controlador->mostrarBaraja();
 
-if (isset($_GET['controller'])){
-    $nombreControlador="Controllers\\".$_GET['controller']."Controller";
+if (isset($_GET['action']) and $_GET['action']=="mostrarBaraja"){
+    $barajarController->mostrarBaraja();
+}
+
+if (isset($_GET['action']) and $_GET['action']=="barajar"){
+    $barajarController->barajar();
 }
