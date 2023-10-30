@@ -5,8 +5,9 @@
     <title>Document</title>
 </head>
 <body>
-    <a href="index.php?action=mostrarBaraja">Mostrar baraja</a><br>
-    <a href="index.php?action=barajar">Barajar</a>
+
+<a href="index.php?action=mostrarBaraja">Mostrar baraja</a><br>
+<a href="index.php?action=barajar">Barajar</a>
 
 </body>
 </html>
