@@ -2,7 +2,6 @@
 namespace Controllers;
 class frontController{
     public static function main(){
-        if (!empty($_GET)) {
             if (isset($_GET["controller"])){
                 $nombre_controlador="Controllers\\".$_GET["controller"]."Controller";
             }else{
@@ -10,7 +9,6 @@ class frontController{
             }
             if (class_exists($nombre_controlador)){
                 $controlador=new $nombre_controlador();
-
                 if (isset($_GET["action"])&& method_exists($controlador,$_GET["action"])){
                     $action=$_GET["action"];
                     $controlador->$action();
@@ -18,12 +16,12 @@ class frontController{
                     $action_default=ACTION_DEFAULT;
                     $controlador->$action_default();
                 }else{
-                    echo errorController::show_error404();
+                    echo errorController::show_error404()."1";
                 }
             }else{
-                echo errorController::show_error404();
+                echo errorController::show_error404()."2";
             }
-        }
+
     }
 }
 

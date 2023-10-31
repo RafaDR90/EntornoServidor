@@ -28,7 +28,5 @@ public array $baraja=[];
         $this->baraja = $baraja;
     }
 
-    public function barajar(){
-        return shuffle($this->baraja);
-    }
+
 }

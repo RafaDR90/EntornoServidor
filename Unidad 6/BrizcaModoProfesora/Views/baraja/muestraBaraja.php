@@ -1,16 +1,8 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Document</title>
-</head>
-<body>
 <?php
 if (!is_dir("./Img")){
     echo "No tenemos imagenes";
 }else{
-    $barajaEsta=$baraja->getBaraja();
-    foreach ($barajaEsta as $carta){
+    foreach ($mazo as $carta){
         $image="./Img/".$carta->getPalo()."_".$carta->getNumero().".jpg";
         if (file_exists($image)) {
             echo "<img src='$image'/>";
@@ -21,5 +13,3 @@ if (!is_dir("./Img")){
 
 }
 ?>
-</body>
-</html>
