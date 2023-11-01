@@ -3,7 +3,7 @@
 namespace Models;
 //crear clase carta con constructor, comprobar palo estatico, comprobar numero estatico.
 class carta{
-    const PALOS = ["Oros","Copas","Espadas","Bastos"];
+    const PALOS = ["OROS","COPAS","ESPADAS","BASTOS"];
     const NUMEROS = array(1=>"AS",2=>"DOS",3=>"TRES",
         4=>"CUATRO",5=>"CINCO",6=>"SEIS",7=>"SIETE",
         8=>"OCHO",9=>"NUEVE",10=>"SOTA",11=>"CABALLO",

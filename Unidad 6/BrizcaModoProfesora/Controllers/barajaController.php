@@ -29,4 +29,8 @@ class barajaController{
         $this->mostrarBaraja($baraja);
     }
 
+    public function chooseCard(){
+            $this->pages->render('form/chooseCard');
+
+    }
 }

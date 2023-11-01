@@ -12,6 +12,11 @@
                 <li><a href="http://localhost/Entorno%20Servidor/Unidad%206/BrizcaModoProfesora/index.php?controller=baraja&action=mostrarBaraja">Mostrar Cartas Baraja</a>
                 </li>
                 <li><a href="http://localhost/Entorno%20Servidor/Unidad%206/BrizcaModoProfesora/index.php?controller=baraja&action=barajar">Mostrar Baraja ya barajada</a>
+                <li><a href="http://localhost/Entorno%20Servidor/Unidad%206/BrizcaModoProfesora/index.php?controller=baraja&action=barajar">Mostrar una carta</a></li>
+                <li><a href="http://localhost/EntornoServidor/Unidad%206/BrizcaModoProfesora/index.php?controller=baraja&action=mostrarBaraja">Mostrar Cartas Baraja PC CASA</a>
+                </li>
+                <li><a href="http://localhost/EntornoServidor/Unidad%206/BrizcaModoProfesora/index.php?controller=baraja&action=barajar">Mostrar Baraja ya barajada PC CASA</a>
+                <li><a href="http://localhost/EntornoServidor/Unidad%206/BrizcaModoProfesora/index.php?controller=baraja&action=chooseCard">Mostrar una carta PC CASA</a></li>
             </ul>
         </nav>
     </header>
