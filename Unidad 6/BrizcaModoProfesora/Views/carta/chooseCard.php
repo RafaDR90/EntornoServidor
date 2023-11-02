@@ -1,7 +1,5 @@
 <div>
-    <form method="get">
-        <input type="hidden" name="controller" value="<?php echo isset($_GET['controller']) ? $_GET['controller'] : ''; ?>">
-        <input type="hidden" name="action" value="<?php echo isset($_GET['action']) ? $_GET['action'] : '';?>">
+    <form action=http://localhost/Entorno%20Servidor/Unidad%206/BrizcaModoProfesora/index.php?controller=carta&action=showCard method="post" >
         <p>
             <label for="suit">Palo</label>
             <select id="suit" name="suit">
@@ -31,14 +29,5 @@
         <p>
             <input type="submit">
         </p>
-        <?php
-            if (isset($_GET["suit"]) && isset($_GET["cardNumber"])):
-                if (\Models\carta::comprobarPalo($_GET["suit"]) && \Models\carta::comprobarNumero($_GET["cardNumber"])):
-                    $card="./Img/".$_GET["suit"]."_".$_GET["cardNumber"].".jpg";
-
-        ?>
-                    <img src="<?php echo $card ?>">
-        <?php endif;
-        endif;?>
     </form>
 </div>
