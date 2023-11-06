@@ -1,3 +1,3 @@
 <?php
-define("CONTROLLER_DEFAULT","barajaController");
-define("ACTION_DEFAULT", "mostrarBaraja");
+define("CONTROLLER_DEFAULT","monederoController");
+define("ACTION_DEFAULT", "listarMonederos");
