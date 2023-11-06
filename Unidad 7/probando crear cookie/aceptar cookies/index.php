@@ -1,5 +1,9 @@
 <?php
-    if ($_GET[''])
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['aceptar'])) {
+    if ($_POST['aceptar'] === 'si') {
+        setcookie("cookies", 'aceptado');
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -8,16 +12,21 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Bienvenido</h1>
-    <div>
-        <?php
-            if(!isset($_COOKIE['cookies'])):
+<h1>Bienvenido</h1>
+<div>
+    <?php
+    if (!isset($_COOKIE['cookies'])):
         ?>
         <form method="post" action="#">
-            <label for="aceptar">Esta pagina tiene cookies</label><br>
-            <input type="submit" id="aceptar" value="true">
+            <label for="aceptar">¿Acepta el uso de cookies en esta página?</label><br>
+            <select name="aceptar" id="aceptar">
+                <option value="si">Sí</option>
+                <option value="no">No</option>
+            </select>
+            <br>
+            <input type="submit" value="Aceptar">
         </form>
-        <?php endif; ?>
-    </div>
+    <?php endif; ?>
+</div>
 </body>
 </html>
