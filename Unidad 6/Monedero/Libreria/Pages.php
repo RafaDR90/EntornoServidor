@@ -4,13 +4,12 @@ namespace Libreria;
 class Pages
 {
     /**
-     * Le mete header y footer a una view.
+     * Le mete header y footer ha una view.
      * @param string $pageName
      * @param array|null $params
      * @return void
      */
-    public function render(string $pageName, array $params = null)
-    {
+    public function render(string $pageName, array $params = null){
         if ($params != null) {
             foreach ($params as $name => $value) {
                 $$name = $value;

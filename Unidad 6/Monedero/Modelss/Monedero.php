@@ -3,31 +3,36 @@ namespace Modelss;
 use DateTime;
 class Monedero {
     private string $concepto;
-    private date $fecha;
+    private string $fecha;
     private float $importe;
 
-    public function __construct() {
-        $this->monederos = $this->cargarMonederosDesdeArchivo('Modelss/Monederos.txt');
-    }
+    public function __construct(public array $monederos=[]) {}
 
     public function getMonederos() {
         return $this->monederos;
     }
-    private function cargarMonederosDesdeArchivo($archivo) {
+
+    public static function inicializar(){
+        return new Monedero(self::cargarMonederosDesdeArchivo('Modelss/Monederos.txt'));
+    }
+    private static function cargarMonederosDesdeArchivo($archivo) {
         $monederos = [];
         if (file_exists($archivo)) {
-            $lineas = file($archivo, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-            foreach ($lineas as $linea) {
-                list($concepto, $fecha, $importe) = explode(',', $linea);
-                var_dump($fecha);
-                $fechaObj = new date($fecha);
-                $monedero = new Monedero();
-                $monedero->setConcepto($concepto);
-                $monedero->setFecha($fechaObj);
-                $monedero->setImporte((float)$importe);
-                $monederos[] = $monedero;
+            $datos = fopen($archivo, 'r');
+            if ($datos){
+                while (($linea = fgets($datos))!==false){
+                    list($concepto, $fecha, $importe) = explode(',', $linea);
+                    $monedero = new Monedero();
+                    $monedero->setConcepto($concepto);
+                    $monedero->setFecha($fecha);
+                    $monedero->setImporte((float)$importe);
+                    $monederos[] = $monedero;
+                }
             }
+
+            fclose($datos);
         }
+
         return $monederos;
     }
 
@@ -41,12 +46,12 @@ class Monedero {
         $this->concepto = $concepto;
     }
 
-    public function getFecha(): DateTime
+    public function getFecha(): string
     {
         return $this->fecha;
     }
 
-    public function setFecha(DateTime $fecha): void
+    public function setFecha(string $fecha): void
     {
         $this->fecha = $fecha;
     }
