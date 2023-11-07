@@ -1,7 +1,7 @@
 :root {
-    --max-font-size: 15px; /* Define un tamaño de fuente máximo */
-    --font-size: 2vw; /* Tamaño de fuente en relación al viewport */
-    font-size: min(var(--font-size), var(--max-font-size)); /* Establece el tamaño de fuente usando la función min() */
+    --max-font-size: 15px;
+    --font-size: 2vw;
+    font-size: min(var(--font-size), var(--max-font-size));
 }
 body{
 
@@ -56,4 +56,12 @@ a{
     padding: 3px;
     border: solid #8e8e8e 2px;
     background-color:#669900 ;
+}
+
+#td_enlaces {
+    text-align: center;
+}
+
+#td_enlaces a {
+    margin: 2px;
 }

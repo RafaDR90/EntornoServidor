@@ -1,5 +1,5 @@
-Compra1,2023-11-01,10.50
-Compra2,2023-11-02,15.75
-Compra3,2023-11-03,5.20
-Compra4,2023-11-04,8.90
-Compra5,2023-11-05,12.60
+Cena del viernes,11-11-2023,-8
+Paga octubre,12-11-2023,25
+Cine y chuches,2023-13-2023,-12
+Regalazo de la abuela,14/11/2023,50
+Pastelillos,05/11/2023,-2

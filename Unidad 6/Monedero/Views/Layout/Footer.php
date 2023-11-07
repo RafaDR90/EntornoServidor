@@ -1,4 +1,13 @@
-
+    <tr>
+        <form name="añadir_registro" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
+            <td><input type="text" id="concepto" name="concepto" required></td>
+            <td><input type="date" id="fecha" name="fecha" required></td>
+            <td><input type="text" id="importe" name="importe" pattern="[0-9]*\.?[0-9]*" inputmode="numeric" required></td>
+            <td><input type="submit" name="añadir_registro" value="A&ntilde;adir registro"></td>
+        </form>
+    </tr>
+</table>
+</main>
 <footer>
     <hr>
     <div id="divFooter">

@@ -10,3 +10,10 @@
 <header>
     <img src="Img/fotoHeader.png">
 </header>
+    <main>
+        <table>
+            <tr id="tr_titulos">
+                <th>Concepto</th>
+                <th>Fecha</th>
+                <th>Importe</th>
+            </tr>

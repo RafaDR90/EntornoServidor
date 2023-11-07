@@ -26,4 +26,22 @@ class MonederoController {
         file_put_contents($archivo, $linea . PHP_EOL, FILE_APPEND | LOCK_EX);
                                               //nueva linea | Sin sobreescribir | Bloquea el fichero mientras estoy usandolo
     }
+
+    public function borrarMonedero($concepto){
+        $archivo="Modelss/Monederos.txt";
+        if (file_exists($archivo)){
+            $lineas=file($archivo);
+            foreach ($lineas as $indice => $linea){
+                $datos=explode(',',$linea);
+                $conceptoLinea=trim($datos[0]);
+                if ($concepto==$conceptoLinea){
+                    $lineas[$indice]=$_POST['concepto_edit'] . ',' . $_POST['fecha_edit'] . ',' . $_POST['cantidad_edit'] . PHP_EOL;
+                }
+            }
+            $nuevoContenido=implode('',$lineas);
+            file_put_contents($archivo,$nuevoContenido);
+        }
+        unset($_POST);
+        header("Location: index.php");
+    }
 }
