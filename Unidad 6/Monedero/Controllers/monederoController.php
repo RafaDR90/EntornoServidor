@@ -2,12 +2,13 @@
 namespace Controllers;
 
 use Modelss\Monedero,
-    Libreria\Pages;
+    Libreria\Pages,
+    Validacion\validacion;
 
 class MonederoController {
+    public $errores=[];
     private Monedero $monedero;
     private Pages $pages;
-
     public function __construct() {
         $this->monedero=Monedero::inicializar();
         $this->pages = new Pages();
@@ -18,24 +19,28 @@ class MonederoController {
         $this->pages->render('Monedero/muestraMonederos',['monederos' => $this->monedero->getMonederos()]);
     }
 
-    public function agregarMonedero($concepto, $fecha, $importe) {
 
-
-        $archivo = 'Models/Monederos.txt';
-        $linea = "$concepto,$fecha,$importe";
-        file_put_contents($archivo, $linea . PHP_EOL, FILE_APPEND | LOCK_EX);
-                                              //nueva linea | Sin sobreescribir | Bloquea el fichero mientras estoy usandolo
-    }
-
-    public function borrarMonedero2(){
-        $archivo="Modelss/Monederos.txt";
+    public function editarMonedero(){
+        $concepto=$_POST['concepto_edit'];
+        if (isset($this->errores[$concepto])){
+            unset($this->errores[$concepto]);
+        }
+        $validador=new validacion();
+        $fecha=$_POST['fecha_edit'];
+        $cantidad=$_POST['cantidad_edit'];
+        $concepto=$validador->saneaYValidaNombresPOST('concepto_edit',$concepto,$this->errores,$concepto);
+        if (count($this->errores)!=0){
+            header("Location: index.php");
+            exit();
+        }
+        $archivo="Modelss/Monedero.txt";
         if (file_exists($archivo)){
             $lineas=file($archivo);
             foreach ($lineas as $indice => $linea){
                 $datos=explode(',',$linea);
                 $conceptoLinea=trim($datos[0]);
-                if ($_POST['concepto_edit']==$conceptoLinea){
-                    $lineas[$indice]=$_POST['concepto_edit'] . ',' . $_POST['fecha_edit'] . ',' . $_POST['cantidad_edit'] . PHP_EOL;
+                if ($_GET['conceptoEdit']==$conceptoLinea){
+                    $lineas[$indice]=$concepto . ',' . $fecha . ',' . $cantidad . PHP_EOL;
                 }
             }
             $nuevoContenido=implode('',$lineas);
@@ -44,29 +49,29 @@ class MonederoController {
         unset($_POST);
         header("Location: index.php");
     }
+
     public function borrarMonedero(){
-        $archivo = "Modelss/Monederos.txt";
+        $archivo="Modelss/Monedero.txt";
         if (file_exists($archivo)){
-
-            $lineas = file($archivo);
-            $nuevoContenido = '';
-            chmod($archivo, 0666);
-
-            $archivoAbierto = fopen($archivo, 'w');
-            if ($archivoAbierto) {
-                foreach ($lineas as $indice => $linea){
-                    $datos = explode(',', $linea);
-                    $conceptoLinea = trim($datos[0]);
-                    var_dump($_POST['concepto_edit']); var_dump("<br>".$conceptoLinea);die();
-                    if ($_POST['concepto_edit'] == $conceptoLinea){
-                        $lineaModificada = $_POST['concepto_edit'] . ',' . $_POST['fecha_edit'] . ',' . $_POST['cantidad_edit'] . PHP_EOL;
-                        fwrite($archivoAbierto, $lineaModificada);
-                    } else {
-                        fwrite($archivoAbierto, $linea);
-                    }
+            $lineas=file($archivo);
+            foreach ($lineas as $indice => $linea){
+                $datos=explode(',',$linea);
+                $conceptoLinea=trim($datos[0]);
+                if ($_GET['conceptoBorrar']==$conceptoLinea){
+                    unset($lineas[$indice]);
                 }
-                fclose($archivoAbierto);
             }
+            $nuevoContenido=implode('',$lineas);
+            file_put_contents($archivo,$nuevoContenido);
+        }
+        unset($_POST);
+        header("Location: index.php");
+    }
+
+    public function agregarCampo(){
+        $archivo="Modelss/Monedero.txt";
+        if (file_exists($archivo)){
+            file_put_contents($archivo, $_POST['concepto'].",".$_POST['fecha'].",".$_POST['importe'] . PHP_EOL. file_get_contents($archivo));
         }
         unset($_POST);
         header("Location: index.php");

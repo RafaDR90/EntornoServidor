@@ -59,7 +59,7 @@ a{
 }
 
 #td_enlaces {
-    text-align: center;
+    display: flex;
 }
 
 #td_enlaces a {

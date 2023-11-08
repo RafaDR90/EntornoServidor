@@ -13,7 +13,7 @@ class Monedero {
     }
 
     public static function inicializar(){
-        return new Monedero(self::cargarMonederosDesdeArchivo('Modelss/Monederos.txt'));
+        return new Monedero(self::cargarMonederosDesdeArchivo('Modelss/Monedero.txt'));
     }
     private static function cargarMonederosDesdeArchivo($archivo) {
         $monederos = [];
