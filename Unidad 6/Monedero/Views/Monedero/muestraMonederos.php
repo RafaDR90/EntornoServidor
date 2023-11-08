@@ -5,10 +5,10 @@
             <?php if (isset($_GET['conceptoBuscar'])&& isset($_GET['accion'])):
                 if ($_GET['conceptoBuscar']==$monedero->getConcepto() && $_GET['accion']=='editar'):
                 ?>
-                <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>?controller='monedero&action='borrarMonederos" method="post">
-                <td><input type="text" name="concepto_edit" placeholder="<?php echo $monedero->getConcepto(); ?>"></td>
-                <td><input type="date" name="fecha_edit" placeholder="<?php echo $monedero->getFecha(); ?>"></td>
-                <td><input type="number" name="cantidad_edit" placeholder="<?php echo $monedero->getImporte(); ?>"></td>
+                <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>?controller=monedero&action=borrarMonedero" method="post">
+                <td><input type="text" name="concepto_edit" value="<?php echo $monedero->getConcepto(); ?>"></td>
+                <td><input type="text" name="fecha_edit" value="<?php echo $monedero->getFecha(); ?>"></td>
+                <td><input type="text" name="cantidad_edit" value="<?php echo $monedero->getImporte(); ?>"></td>
                 <td><input type="submit" value="Modificar"></td>
                 </form>
                 <?php else:?>
