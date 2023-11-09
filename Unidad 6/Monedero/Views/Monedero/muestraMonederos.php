@@ -28,8 +28,7 @@
         <?php endif;?>
         </tr>
         <?php endforeach; ?>
+
         <?php
         //TENGO QUE VER COMO PONGO LOS ERRORES
-        if (isset($this->errores) && count($this->errores)!=0): ?>
-            <p><?php echo $this->errores[0]; ?></p>
-        <?php endif;
+        

@@ -72,5 +72,61 @@ class validacion{
         $patron="/^[a-zA-Záéíóú\s]+$/";
         return preg_match($patron,$texto);
     }
+
+
+    /**
+     * Sanitiza una fecha dada, eliminando espacios, convirtiendo , o ; o - a /,
+     * añadiendo ceros a día y mes si son de un solo dígito, y ajustando el año.
+     *
+     * También valida el formato de fecha (día/mes/año), el rango de fechas y
+     * asegura que la fecha no sea mayor que la fecha actual.
+     *
+     * @param string $fecha La fecha original a sanitizar.
+     * @return string Mensaje indicando el resultado de la sanitización o error.
+     */
+    function SVFechaString($fecha) {
+        //limpia espacios
+        $fecha = trim($fecha);
+        // Eliminar espacios y convertir , o ; o - a /
+        $fecha = str_replace([' ', ',', ';', '-'], '/', $fecha);
+
+        // Dividir la fecha en partes (día, mes, año)
+        $partes = explode('/', $fecha);
+
+        // Añadir ceros a día y mes si son de un solo dígito
+        $partes[0] = str_pad($partes[0], 2, '0', STR_PAD_LEFT);
+        $partes[1] = str_pad($partes[1], 2, '0', STR_PAD_LEFT);
+
+        // Añadir 20 al año si es de dos dígitos
+        $partes[2] = strlen($partes[2]) == 2 ? '20' . $partes[2] : $partes[2];
+
+        // Formar la fecha saneada
+        $fechaSaneada = implode('/', $partes);
+
+        // Validar el formato de fecha (día/mes/año)
+        if (preg_match('/^\d{2}\/\d{2}\/\d{4}$/', $fechaSaneada)) {
+            // Validar el rango de fechas
+            $dia = intval($partes[0]);
+            $mes = intval($partes[1]);
+            $year = intval($partes[2]);
+
+            // Obtener la fecha actual
+            $fechaActual = date('Y-m-d');
+            $fechaInput = "$year-$mes-$dia";
+
+            // Comparar las fechas
+            if ($dia >= 1 && $dia <= 31 && $mes >= 1 && $mes <= 12 && $year >= 2000 && $year <= 2023 && strtotime($fechaInput) <= strtotime($fechaActual)) {
+                return $fechaSaneada;
+            } else {
+                return "Fecha fuera de rango válido o mayor que la fecha actual";
+            }
+        } else {
+            // Si el formato no es válido, puedes manejar el error según tus necesidades
+            return "Formato de fecha no válido";
+        }
+    }
+
+
+
 }
 

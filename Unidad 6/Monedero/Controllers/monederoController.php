@@ -16,7 +16,7 @@ class MonederoController {
 
     public function listarMonederos() {
 
-        $this->pages->render('Monedero/muestraMonederos',['monederos' => $this->monedero->getMonederos()]);
+        $this->pages->render('Monedero/muestraMonederos',['monederos' => $this->monedero->getMonederos(),'errores'=>$this->errores]);
     }
 
 
@@ -76,4 +76,16 @@ class MonederoController {
         unset($_POST);
         header("Location: index.php");
     }
+
+    public function getErrores(): array
+    {
+        return $this->errores;
+    }
+
+    public function setErrores(array $errores): void
+    {
+        $this->errores = $errores;
+    }
+
+
 }
