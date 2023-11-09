@@ -8,8 +8,44 @@ class Monedero {
 
     public function __construct(public array $monederos=[]) {}
 
-    public function getMonederos() {
-        return $this->monederos;
+    public function compararPorFecha($a, $b) {
+        $fechaA = DateTime::createFromFormat('d/m/Y', $a->getFecha());
+        $fechaB = DateTime::createFromFormat('d/m/Y', $b->getFecha());
+
+        if ($fechaA === false || $fechaB === false) {
+            return 0;
+        }
+
+        return $fechaA <=> $fechaB;
+    }
+    public function compararPorConcepto($a, $b) {
+        return strcmp(strtolower($a->getConcepto()), strtolower($b->getConcepto()));
+    }
+    public function compararNumerosFloat($a, $b) {
+        return $a->getImporte() - $b->getImporte();
+    }
+    public function getMonederos($concepto=null) {
+        if (!isset($concepto)){
+            return $this->monederos;
+        }
+        if ($concepto=='ordenar_concepto'){
+            usort($this->monederos,[$this,'compararPorConcepto']);
+            return $this->monederos;
+        }elseif ($concepto == 'ordenar_fecha') {
+            usort($this->monederos, [$this, 'compararPorFecha']);
+            return $this->monederos;
+        } elseif ($concepto == 'ordenar_importe') {
+            usort($this->monederos, [$this, 'compararNumerosFloat']);
+            return $this->monederos;
+        }
+
+        $monederosFiltrados=[];
+        foreach ($this->monederos as $monedero){
+            if (str_contains(strtolower($monedero->getConcepto()),strtolower($concepto))){
+                $monederosFiltrados[]=$monedero;
+            }
+        }
+        return $monederosFiltrados;
     }
 
     public static function inicializar(){

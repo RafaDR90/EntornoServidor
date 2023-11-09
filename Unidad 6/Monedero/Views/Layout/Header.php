@@ -13,7 +13,7 @@
     <main>
         <table>
             <tr id="tr_titulos">
-                <th>Concepto</th>
-                <th>Fecha</th>
-                <th>Importe</th>
+                <th><a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>?ordenar=ordenar_concepto">Concepto</a></th>
+                <th><a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>?ordenar=ordenar_fecha">Fecha</a></th>
+                <th><a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>?ordenar=ordenar_importe">Importe</a></th>
             </tr>

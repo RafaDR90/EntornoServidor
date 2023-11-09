@@ -51,11 +51,14 @@ hr {
     height: 3px;
     background-color: #8e8e8e; /
 }
-a{
-    color: white;
+.lateral{
+
     padding: 3px;
     border: solid #8e8e8e 2px;
     background-color:#669900 ;
+}
+a{
+    color: white;
 }
 
 #td_enlaces {
@@ -64,4 +67,11 @@ a{
 
 #td_enlaces a {
     margin: 2px;
+}
+#error{
+    color: darkred;
+}
+th{
+    background-color:#669900 ;
+    border: solid #8e8e8e 2px;
 }
