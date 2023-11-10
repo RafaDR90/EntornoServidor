@@ -11,6 +11,7 @@
     <img src="Img/fotoHeader.png">
 </header>
     <main>
+        <!-- Crea la tabla y en su primer <tr> manta por get una variable con la condicion de ordenacion -->
         <table>
             <tr id="tr_titulos">
                 <th><a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>?ordenar=ordenar_concepto">Concepto</a></th>

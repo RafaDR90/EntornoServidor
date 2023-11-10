@@ -2,23 +2,32 @@
 namespace Validacion;
 class validacion{
 
-    function sanearValidarImporte(string $importe, array &$errores, string $nombreError)   {
+    /**
+     * Funcion que sanea y valida un importe, en caso de error crea un array con el error, en caso de no haber error
+     * devuelve el importe saneado.
+     * @param string $importe
+     * @param array $errores
+     * @param string $nombreError
+     * @return mixed
+     */
+    function sanearValidarImporte(string $importe, array &$errores, string $nombreError):mixed   {
         $importe = str_replace(',', '.', $importe);
 
         if ($importe=="") {
             $errores[$nombreError] = "El importe no puede estar vacío.";
-            return;
+            return null;
         }else if (!preg_match('/^\-?\d+(\.\d{1,2})?$/', $importe)) {
             $errores[$nombreError] = "El importe no es válido.";
-            return;
+            return null;
         }
         return $importe;
     }
 
     /**
      * Verifica la validez y futuridad de una fecha introducida.
-     * @param string $fechaElegida La fecha introducida en formato 'd/m/Y'.
-     * @return string El mensaje indicando si la fecha es válida y no es futura, o el motivo por el cual no es válida.
+     * En caso de error crea un array con el error, en caso de no haber error devuelve la fecha.
+     * @param string $fechaElegida La fecha introducida
+     * @return string
      */
     function verificarFecha(string $fechaElegida,array &$errores,string $nombreError){
         $fechaElegida = str_replace(['.',' ', ',', '-'], '/', $fechaElegida);
@@ -38,14 +47,16 @@ class validacion{
 
 
     /**
-     * Funcion que sanea y valida un nombre, en caso de error retorna un string con el error.
+     * Funcion que sanea y valida un nombre, en caso de error retorna un array con el error.
+     * En caso de no haber error retorna el nombre saneado.
+     *
      * @param $nombreAValidar string con el nombre a validar
      * @param $nombreValidado string que retorna validado la funcion
      * @param $errores array de errores
      * @param $nombreError
-     * @return string|null
+     * @return ?string
      */
-    function saneaYValidaNombresPOST( $nombreAValidar, $nombreValidado, array &$errores, $nombreError):string|null{
+    function saneaYValidaNombresPOST( $nombreAValidar, $nombreValidado, array &$errores, $nombreError):?string{
         if(isset($_POST[$nombreAValidar])){
             $nombreValidado=$_POST[$nombreAValidar];
 
@@ -109,21 +120,6 @@ class validacion{
         $patron="/^[a-zA-Záéíóú\s]+$/";
         return preg_match($patron,$texto);
     }
-
-
-    /**
-     * Sanitiza una fecha dada, eliminando espacios, convirtiendo , o ; o - a /,
-     * añadiendo ceros a día y mes si son de un solo dígito, y ajustando el año.
-     *
-     * También valida el formato de fecha (día/mes/año), el rango de fechas y
-     * asegura que la fecha no sea mayor que la fecha actual.
-     *
-     * @param string $fecha La fecha original a sanitizar.
-     * @return string Mensaje indicando el resultado de la sanitización o error.
-     */
-
-
-
 
 }
 
