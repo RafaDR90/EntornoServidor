@@ -1,8 +1,8 @@
 <?php
 $servername = "localhost"; // Nombre/IP del servidor
 $database = "mistiendas"; // Nombre de la BBDD
-$username = "admin"; // Nombre del usuario
-$password = "admin123"; // Contraseña del usuario
+$username = "root"; // Nombre del usuario
+$password = ""; // Contraseña del usuario
 // Creamos la conexión utilizando la clase Mysqli
 $bd=new Mysqli($servername, $username, $password, $database);
 if ($bd->connect_error)
