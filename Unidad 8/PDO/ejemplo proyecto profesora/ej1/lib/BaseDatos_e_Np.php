@@ -3,7 +3,7 @@ namespace lib;
 use PDO;
 
 require_once "config/config.php";
-class BaseDatos extends PDO{
+class BaseDatos_e_Np extends PDO{
     private PDO $bd;
     private mixed $result;
     public function __construct(
@@ -22,4 +22,33 @@ class BaseDatos extends PDO{
             die("Ha surgido un error y no se puede conectar a la base de datos. Detalle: ".$e->getMessage());
         }
     }
+
+    public function prepara($consultaSQL){
+        $this->result=$this->prepare($consultaSQL);
+        $this->result->execute();
+        return $this->result->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getResult(): mixed
+    {
+        return $this->result;
+    }
+
+    public function setResult(mixed $result): void
+    {
+        $this->result = $result;
+    }
+
+    public function getBd(): PDO
+    {
+        return $this->bd;
+    }
+
+    public function setBd(PDO $bd): void
+    {
+        $this->bd = $bd;
+    }
+
+
+
 }

@@ -9,9 +9,9 @@
 <?php
 require_once "AutoLoad.php";
 require_once 'config/config.php';
-use lib\BaseDatos;
+use lib\BaseDatos_e_Np;
 
-$db= new BaseDatos()
+$db= new BaseDatos_e_Np()
 ?>
     <h2>He conectado usando la lase BaseDatos con extend.</h2>
 <?php

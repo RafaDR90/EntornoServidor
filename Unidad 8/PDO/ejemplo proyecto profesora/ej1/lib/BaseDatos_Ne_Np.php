@@ -2,7 +2,7 @@
 namespace lib;
 use PDO;
 require_once "config/config.php";
-class BaseDatosNoExtend
+class BaseDatos_Ne_Np
 {
     private PDO $conexion;
     private mixed $resultado;

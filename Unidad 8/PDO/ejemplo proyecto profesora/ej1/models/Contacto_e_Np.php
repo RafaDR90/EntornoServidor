@@ -1,11 +1,11 @@
 <?php
 namespace models;
-use lib\BaseDatos,
+use lib\BaseDatos_e_Np,
     PDO,
     PDOException;
 
-class Contacto{
-    private BaseDatos $conexion;
+class Contacto_e_Np{
+    private BaseDatos_e_Np $conexion;
     private mixed $stmt;
 
     function __construct(
@@ -18,7 +18,7 @@ class Contacto{
         private string $fecha_nacimiento='',
     )
     {
-        $this->conexion=new BaseDatos();
+        $this->conexion=new BaseDatos_e_Np();
     }
 
     public function getId(): ?string
@@ -94,7 +94,7 @@ class Contacto{
     public function insert(): string|int {
         try {
             //puedo cambiar prepare por prepara y crear la funcion en la clase base de datos
-            $this->sentencia = $this->conexion->prepare("INSERT INTO contactos(id,nombre,apellidos,correo,telefono,fecha_nacimiento)
+            $this->sentencia = $this->conexion->prepara("INSERT INTO contactos(id,nombre,apellidos,correo,telefono,fecha_nacimiento)
             values (:id,:nombre,:apellidos,:correo,:direccion,:telefono,:fecha_nacimiento)");
             $id = null;
             $nombre = $this->nombre;

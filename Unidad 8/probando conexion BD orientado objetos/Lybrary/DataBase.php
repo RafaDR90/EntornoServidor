@@ -1,5 +1,5 @@
 <?php
-namespace Lib;
+namespace Lib2;
 use Mysqli;
 
 class DataBase{
