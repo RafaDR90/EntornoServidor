@@ -5,6 +5,7 @@ use lib\BaseDatos_e_Np,
     PDOException;
 
 class Contacto_e_Np{
+    private BaseDatos_e_Np $conexion;
     private mixed $stmt;
 
     function __construct(
@@ -16,7 +17,9 @@ class Contacto_e_Np{
         private string $telefono='',
         private string $fecha_nacimiento='',
     )
-    {}
+    {
+        $this->conexion=new BaseDatos_e_Np();
+    }
 
     public function getId(): ?string
     {
@@ -88,17 +91,38 @@ class Contacto_e_Np{
         $this->fecha_nacimiento = $fecha_nacimiento;
     }
 
+    public function insert(): string|int {
+        try {
+            //puedo cambiar prepare por prepara y crear la funcion en la clase base de datos
+            $this->sentencia = $this->conexion->prepara("INSERT INTO contactos(id,nombre,apellidos,correo,telefono,fecha_nacimiento)
+            values (:id,:nombre,:apellidos,:correo,:direccion,:telefono,:fecha_nacimiento)");
+            $id = null;
+            $nombre = $this->nombre;
+            $apellidos = $this->apellidos;
+            $correo = $this->correo;
+            $telefono = $this->telefono;
+            $fecha_nacimiento = $this->fecha_nacimiento;
 
+            $this->sentencia->bindValue(":id",$id);
+            $this->sentencia->bindValue(":nombre",$nombre,PDO::PARAM_STR);
+            $this->sentencia->bindValue(":apellidos",$apellidos,PDO::PARAM_STR);
+            $this->sentencia->bindValue(":correo",$correo,PDO::PARAM_STR);
+            $this->sentencia->bindValue(":telefono",$telefono,PDO::PARAM_STR);
+            $this->sentencia->bindValue(":fecha_nacimiento",$fecha_nacimiento,PDO::PARAM_STR);
 
-    public static function fromArray(array $data):Contacto{
-        return new Contacto_e_Np(
-            $data['id'],
-            $data['nombre'],
-            $data['apellidos'],
-            $data['correo'],
-            $data['direccion'],
-            $data['telefono'],
-            $data['fecha_nacimiento']
-        );
+            $this->sentencia->execute();
+            $result = $this->sentencia->rowCount();
+        }catch (PDOException $e) {
+            $result = $e->getMessage();
+        }
+
+        $this->sentencia->closeCursor();
+        $this->sentencia = null;
+
+        return $result;
+    }
+
+    public function extractAll(){
+        return $this->conexion->prepara("SELECT * FROM contactos");
     }
 }

@@ -28,7 +28,6 @@ class BaseDatos_e_Np extends PDO{
         $this->result->execute();
         return $this->result->fetchAll(PDO::FETCH_ASSOC);
     }
-    public
 
     public function getResult(): mixed
     {
