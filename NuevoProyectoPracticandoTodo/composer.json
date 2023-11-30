@@ -1,0 +1,23 @@
+{
+    "name": "yes/nuevo-proyecto-practicando-todo",
+    "description": "algo",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Yes\\NuevoProyectoPracticandoTodo\\": "./",
+            "controllers\\" : "./controllers",
+            "models\\": "./models",
+            "lib\\": "./lib",
+            "repositories\\": "./repositories",
+            "services\\": "./services",
+            "utils\\": "./utils"
+        }
+    },
+    "authors": [
+        {
+            "name": "Rafael"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
