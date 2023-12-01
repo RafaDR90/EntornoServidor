@@ -13,9 +13,7 @@ class categoria{
         $this->db=new BaseDeDatos();
     }
 
-    public static function extraerRegistros (){
 
-    }
 
     /**
      * @return mixed
@@ -60,4 +58,12 @@ class categoria{
     }
 
 
+    public static function getAll():?array
+    {
+        $categoria = new Categoria();
+        $categoria->db->consulta("SELECT * FROM categorias ORDER BY id DESC");
+        $categorias = $categoria->db->extraer_todos();
+        $categoria->db->cierraConexion();
+        return $categorias;
+    }
 }

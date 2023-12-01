@@ -6,12 +6,16 @@ class BaseDeDatos {
     private  $conexion;
     private mixed $resultado;
 
-    function __construct(
-        private string $servidor = SERVIDOR,
-        private string $usuario = USUARIO,
-        private string $pass = PASS,
-        private string $base_datos = BASE_DATOS)
+    private string $servidor ;
+        private string $usuario ;
+        private string $pass ;
+        private string $base_datos;
+    function __construct()
     {
+        $this->servidor = $_ENV['DB_HOST'];
+        $this->usuario = $_ENV['DB_USER'];
+        $this->pass = $_ENV['DB_PASS'];
+        $this->base_datos = $_ENV['DB_DATABASE'];
         $this->conexion=$this->conectar();
     }
     function conectar() : PDO {
