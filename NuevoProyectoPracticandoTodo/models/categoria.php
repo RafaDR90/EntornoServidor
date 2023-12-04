@@ -4,12 +4,15 @@ use lib\BaseDeDatos,
     PDO;
 
 class categoria{
-    private $id;
-    private $nombre;
+    private ?int $id;
+    private string $nombre;
     private BaseDeDatos $db;
+    private mixed $sql;
 
-    public function __construct()
+    public function __construct(?int $id=null, string $nombre='')
     {
+        $this->id=$id;
+        $this->nombre=$nombre;
         $this->db=new BaseDeDatos();
     }
 
@@ -66,4 +69,45 @@ class categoria{
         $categoria->db->cierraConexion();
         return $categorias;
     }
+
+    public static function fromArray(array $data):array
+    {
+        $categorias=[];
+        foreach ($data as $dt) {
+            $categoria = new categoria(
+                $dt['id'] ?? null,
+                $dt['nombre'] ?? '',
+            );
+            $categorias[]=$categoria;
+        }
+        return $categorias;
+    }
+    public function borrarCategoriaPorId(int $id):?string{
+        $categoria = new Categoria();
+        $resultado='';
+        try{
+            $this->sql=$categoria->db->prepara("DELETE FROM categorias WHERE id = :id");
+            $this->sql->bindValue(':id',$id);
+            $this->sql->execute();
+            $resultado=null;
+        }catch (PDOException $e){
+            $resultado=$e->getMessage();
+        }
+        $this->sql->closeCursor();
+        $this->sql=null;
+        $categoria->db->cierraConexion();
+        return $resultado;
+    }
+
+    public function obtenerCategoriaPorID($id){
+        $this->sql=$this->db->prepara("SELECT * FROM categorias WHERE id = :id");
+        $this->sql->bindValue(':id',$id);
+        $this->sql->execute();
+        $resultado=$this->sql->fetch(PDO::FETCH_ASSOC);
+        $this->sql->closeCursor();
+        $this->sql=null;
+        $this->db->cierraConexion();
+        return $resultado;
+    }
+
 }

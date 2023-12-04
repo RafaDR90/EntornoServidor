@@ -11,11 +11,34 @@ class categoriaController{
     }
 
     public static function obtenerCategorias(){
-        return categoria::getAll();
+        $categorias= categoria::getAll();
+        return categoria::fromArray($categorias);
 
     }
 
-    public function mostrarCategorias(){
-        $this->pages->render('categoria/gestionaCategorias');
+
+
+    public function gestionarCategorias(){
+        $this->pages->render('categoria/mostrarGestionCategorias',['categorias'=>categoriaController::obtenerCategorias()]);
+    }
+
+    public function eliminarCategoriaPorId(){
+        $categoria=new categoria();
+        $categoria->borrarCategoriaPorId($_GET['idCategoria']);
+        header('Location:'.BASE_URL.'categoria/gestionarCategorias/');
+    }
+
+    public function editarCategoria(){
+        if(!isset($_POST['datos'])){
+            if (isset($_GET['idCategoria'])){
+                $categoria=new categoria();
+                $resultado=$categoria->obtenerCategoriaPorID($_GET['idCategoria']);
+                var_dump($resultado);die();
+            }else{
+                header('Location:'.BASE_URL.'categoria/gestionarCategorias/');
+            }
+        }else{
+
+        }
     }
 }
