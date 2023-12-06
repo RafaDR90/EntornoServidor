@@ -29,16 +29,26 @@ class categoriaController{
     }
 
     public function editarCategoria(){
-        if(!isset($_POST['datos'])){
+        if(!isset($_POST['nombre'])){
             if (isset($_GET['idCategoria'])){
                 $categoria=new categoria();
                 $resultado=$categoria->obtenerCategoriaPorID($_GET['idCategoria']);
-                var_dump($resultado);die();
+                $this->pages->render('categoria/editarCategoria',['categoriaEdit'=>$resultado]);
             }else{
+
                 header('Location:'.BASE_URL.'categoria/gestionarCategorias/');
             }
         }else{
-
+            if ($_SERVER['REQUEST_METHOD']=='POST' && isset($_POST['nombre'])){
+                $categoria=new categoria();
+                $categoriaEditada=new categoria($_GET['idCategoria'],$_POST['nombre']);
+                $errores=$categoria->update($categoriaEditada);
+                if($errores){
+                    $this->pages->render('categoria/gestionarCategorias',['errores'=>$errores]);
+                }else{
+                    header('Location:'.BASE_URL.'categoria/gestionarCategorias/');
+                }
+            }
         }
     }
 }

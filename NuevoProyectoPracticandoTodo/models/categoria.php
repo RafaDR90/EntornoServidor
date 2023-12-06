@@ -109,5 +109,21 @@ class categoria{
         $this->db->cierraConexion();
         return $resultado;
     }
+    public function update($datos){
+        $resultado='';
+        try{
+            $this->sql=$this->db->prepara("UPDATE categorias SET nombre = :nombre WHERE id = :id");
+            $this->sql->bindValue(':id',$datos->getId());
+            $this->sql->bindValue(':nombre',$datos->getNombre());
+            $this->sql->execute();
+            $resultado=null;
+        }catch (PDOException $e){
+            $resultado=$e->getMessage();
+        }
+        $this->sql->closeCursor();
+        $this->sql=null;
+        $this->db->cierraConexion();
+        return $resultado;
+    }
 
 }

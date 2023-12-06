@@ -15,12 +15,12 @@
             <?php if ($_SESSION['identity']->rol=='admin'): ?>
             <li><a href="<?= BASE_URL ?>categoria/gestionarCategorias/">Gestionar categorias</a></li>
             <li><a href="">Gestionar productos</a></li>
-            <li><a href="">Gestionar productos</a></li>
             <?php endif;?>
         <?php else: ?>
             <li><a href="<?= BASE_URL ?>usuario/indetifica/">Identificate</a></li>
             <li><a href="<?= BASE_URL ?>usuario/registro/">Crear cuenta</a></li>
             <?php endif; ?>
+            <li><a href="<?=BASE_URL?>carrito/mostrarCarrito/">Ver Carrito</a></li>
     </header>
     <?php $categorias= categoriaController::obtenerCategorias();?>
     <nav>
