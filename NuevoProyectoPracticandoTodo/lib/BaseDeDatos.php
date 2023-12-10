@@ -7,9 +7,9 @@ class BaseDeDatos {
     private mixed $resultado;
 
     private string $servidor ;
-        private string $usuario ;
-        private string $pass ;
-        private string $base_datos;
+    private string $usuario ;
+    private string $pass ;
+    private string $base_datos;
     function __construct()
     {
         $this->servidor = $_ENV['DB_HOST'];

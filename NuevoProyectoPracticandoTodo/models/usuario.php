@@ -92,7 +92,7 @@ class usuario{
             $data['apellidos']??'',
             $data['email']??'',
             $data['password']??'',
-            $data['rol']??'',
+            'user',
         );
     }
 
