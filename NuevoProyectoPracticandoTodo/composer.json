@@ -8,8 +8,8 @@
             "controllers\\" : "./controllers",
             "models\\": "./models",
             "lib\\": "./lib",
-            "repositories\\": "./repositories",
-            "services\\": "./services",
+            "repository\\": "./repository",
+            "service\\": "service",
             "utils\\": "./utils"
         }
     },

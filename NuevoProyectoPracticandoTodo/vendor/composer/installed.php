@@ -3,7 +3,7 @@
         'name' => 'yes/nuevo-proyecto-practicando-todo',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'a2eddd88fbb52be115a65bc072eef7637f3d99d6',
+        'reference' => '0d436062f9ec787233eb45dfc3b6dd53d3b43a19',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -67,7 +67,7 @@
         'yes/nuevo-proyecto-practicando-todo' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'a2eddd88fbb52be115a65bc072eef7637f3d99d6',
+            'reference' => '0d436062f9ec787233eb45dfc3b6dd53d3b43a19',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

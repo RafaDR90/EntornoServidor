@@ -19,11 +19,11 @@ class ComposerStaticInit268acb35806effb0433052fd652303d8
         ),
         's' => 
         array (
-            'services\\' => 9,
+            'service\\' => 8,
         ),
         'r' => 
         array (
-            'repositories\\' => 13,
+            'repository\\' => 11,
         ),
         'm' => 
         array (
@@ -66,13 +66,13 @@ class ComposerStaticInit268acb35806effb0433052fd652303d8
         array (
             0 => __DIR__ . '/../..' . '/utils',
         ),
-        'services\\' => 
+        'service\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/services',
+            0 => __DIR__ . '/../..' . '/service',
         ),
-        'repositories\\' => 
+        'repository\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/repositories',
+            0 => __DIR__ . '/../..' . '/repository',
         ),
         'models\\' => 
         array (

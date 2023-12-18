@@ -3,6 +3,9 @@ namespace models;
 use lib\BaseDeDatos,
     PDO,
     PDOException;
+use utils\utils;
+use utils\ValidationUtils;
+
 class usuario{
     private string|null $id;
     private string $nombre;
@@ -11,7 +14,6 @@ class usuario{
     private string $password;
     private string $rol;
 
-    protected array $errores;
     private BaseDeDatos $db;
 
     public function __construct(string|null $id, string $nombre, string $apellidos, string $email, string $password, string $rol)
@@ -96,41 +98,45 @@ class usuario{
         );
     }
 
-    public function save(){
-        if ($this->getId()){
-            return $this->update();
-        }else{
-            return $this->create();
+    public function validaUsuario($usuario){
+        //saneamos los datos
+        $usuario->setNombre(ValidationUtils::sanidarStringFiltro($usuario->getNombre()));
+        $usuario->setApellidos(ValidationUtils::sanidarStringFiltro($usuario->getApellidos()));
+        $usuario->setEmail(filter_var($usuario->getEmail(),FILTER_SANITIZE_EMAIL));
+        $usuario->setPassword(ValidationUtils::sanidarStringFiltro($usuario->getPassword()));
+        //Valida Nombre
+        if (empty($usuario->getNombre())){
+            return $error='El nombre no puede estar vacio';
+        }else if (!ValidationUtils::son_letras($usuario->getNombre())){
+            return $error='El nombre solo puede contener letras';
+        }else if (!ValidationUtils::TextoNoEsMayorQue($usuario->getNombre(),30)){
+            return $error='El nombre no puede tener mas de 30 caracteres';
         }
-    }
-
-    public function desconecta(){
-        $this->db->cierraConexion();
-    }
-
-    public function create(){
-        $id=null;
-        $nombre=$this->getNombre();
-        $apellidos=$this->getApellidos();
-        $email=$this->getEmail();
-        $password=$this->getPassword();
-        $rol='user';
-        try{
-            $ins=$this->db->prepara("INSERT INTO usuarios (id,nombre,apellidos,email,password,rol) values (:id,:nombre,:apellidos,:email,:password,:rol)");
-            $ins->bindValue(':id',$id);
-            $ins->bindValue(':nombre',$nombre);
-            $ins->bindValue(':apellidos',$apellidos);
-            $ins->bindValue(':email',$email);
-            $ins->bindValue(':password',$password);
-            $ins->bindValue(':rol',$rol);
-            $ins->execute();
-            $result=true;
-        }catch (PDOException $err){
-            $result=false;
+        //Valida Apellidos
+        if (empty($usuario->getApellidos())){
+            return $error='Los apellidos no pueden estar vacios';
+        }else if (!ValidationUtils::son_letras($usuario->getApellidos())){
+            return $error='Los apellidos solo pueden contener letras';
+        }else if (!ValidationUtils::TextoNoEsMayorQue($usuario->getApellidos(),50)){
+            return $error='Los apellidos no pueden tener mas de 50 caracteres';
         }
-        return $result;
+        //Valida Email
+        if (empty($usuario->getEmail())){
+            return $error='El email no puede estar vacio';
+        }else if (filter_var($usuario->getEmail(),FILTER_VALIDATE_EMAIL)){
+            return $error='El email no es valido';
+        }
+        //Valida Password
+        if (empty($usuario->getPassword())){
+            return $error='La contraseña no puede estar vacia';
+        }else if (!ValidationUtils::validarContrasena($usuario->getPassword())) {
+            return $error = 'La contraseña no es valida';
+        }else if(!ValidationUtils::TextoNoEsMayorQue($usuario->getPassword(),70)){
+            return $error='La contraseña no puede tener mas de 70 caracteres';
+        }
+        $error=null;
+        return $error;
     }
-
     public function obtenerPassword($email){
         $select= $this->db->prepara("SELECT * FROM usuarios WHERE email = :email");
         $select->bindValue(':email', $email);

@@ -2,13 +2,16 @@
 namespace controllers;
 use lib\Pages,
     models\usuario;
+use service\usuarioService;
 use utils\utils;
 
 class usuarioController{
+    private usuarioService $usuarioService;
     private Pages $pages;
 
     public function __construct()
     {
+        $this->usuarioService=new usuarioService();
         $this->pages=new Pages();
     }
 
@@ -42,25 +45,24 @@ class usuarioController{
             if ($_POST['data']){
                 $registrado=$_POST['data'];
 
-                //sanear y validar con metodos estaticos
-
                 $registrado['password']=password_hash($registrado['password'],PASSWORD_BCRYPT,['cost'=>4]);
 
-                //tambien se puede validar en la funcion fromArray
                 $usuario=usuario::fromArray($registrado);
-
-                $save=$usuario->save();
-                if ($save){
-                    $_SESSION['register']='complete';
-                }else {
-                    $_SESSION['register'] = 'failed';
+                $error=$usuario->validaUsuario();
+                if($error){
+                    $this->pages->render('usuario/registro', ['error' => $error]);
+                }
+                $save=$this->usuarioService->createUser($usuario);
+                if (!$save) {
+                    $error = 'No se ha podido registrar el usuario1';
+                }else{
+                    $exito='Usuario registrado correctamente';
                 }
             }else{
-                $_SESSION['register'] = 'failed';
+                $error='No se ha podido registrar el usuario2';
             }
-            $usuario->desconecta();
         }
-        $this->pages->render('usuario/registro');
+        $this->pages->render('usuario/registro', ['error' => isset($error) ? $error : null, 'exito' => isset($exito) ? $exito : null]);
     }
     public function logout(){
         utils::deleteSession('identity');

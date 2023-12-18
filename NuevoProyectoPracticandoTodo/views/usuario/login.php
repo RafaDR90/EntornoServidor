@@ -1,4 +1,5 @@
 <?php if(!isset($_SESSION['indentity'])): ?>
+<div class="loginContainer">
 <form action="<?=BASE_URL?>usuario/login/" method="post">
     <p>
     <label for="email">Email</label>
@@ -14,4 +15,5 @@
 </form>
 <?php else: ?>
 <h3><?=$_SESSION['identity']->nombre?><?= $_SESSION['identity']->apellidos ?></h3>
+    </div>
 <?php endif;
