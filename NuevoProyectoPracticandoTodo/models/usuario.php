@@ -98,78 +98,58 @@ class usuario{
         );
     }
 
-    public function validaUsuario($usuario){
+    public function saneaYValidaUsuario(){
         //saneamos los datos
-        $usuario->setNombre(ValidationUtils::sanidarStringFiltro($usuario->getNombre()));
-        $usuario->setApellidos(ValidationUtils::sanidarStringFiltro($usuario->getApellidos()));
-        $usuario->setEmail(filter_var($usuario->getEmail(),FILTER_SANITIZE_EMAIL));
-        $usuario->setPassword(ValidationUtils::sanidarStringFiltro($usuario->getPassword()));
+            $this->setNombre(ValidationUtils::sanidarStringFiltro($this->getNombre()));
+            $this->setApellidos(ValidationUtils::sanidarStringFiltro($this->getApellidos()));
+            $this->setEmail(filter_var($this->getEmail(),FILTER_SANITIZE_EMAIL));
+            $this->setPassword(ValidationUtils::sanidarStringFiltro($this->getPassword()));
         //Valida Nombre
-        if (empty($usuario->getNombre())){
-            return $error='El nombre no puede estar vacio';
-        }else if (!ValidationUtils::son_letras($usuario->getNombre())){
-            return $error='El nombre solo puede contener letras';
-        }else if (!ValidationUtils::TextoNoEsMayorQue($usuario->getNombre(),30)){
-            return $error='El nombre no puede tener mas de 30 caracteres';
+        if ($this->getNombre()!=''){
+            if (empty($this->getNombre())){
+                return 'El nombre no puede estar vacio';
+            }else if (!ValidationUtils::son_letras($this->getNombre())){
+                return 'El nombre solo puede contener letras';
+            }else if (!ValidationUtils::TextoNoEsMayorQue($this->getNombre(),30)){
+                return 'El nombre no puede tener mas de 30 caracteres';
+            }
         }
         //Valida Apellidos
-        if (empty($usuario->getApellidos())){
-            return $error='Los apellidos no pueden estar vacios';
-        }else if (!ValidationUtils::son_letras($usuario->getApellidos())){
-            return $error='Los apellidos solo pueden contener letras';
-        }else if (!ValidationUtils::TextoNoEsMayorQue($usuario->getApellidos(),50)){
-            return $error='Los apellidos no pueden tener mas de 50 caracteres';
+        if ($this->getApellidos()!=''){
+            if (empty($this->getApellidos())){
+                return 'Los apellidos no pueden estar vacios';
+            }else if (!ValidationUtils::son_letras($this->getApellidos())){
+                return 'Los apellidos solo pueden contener letras';
+            }else if (!ValidationUtils::TextoNoEsMayorQue($this->getApellidos(),50)){
+                return 'Los apellidos no pueden tener mas de 50 caracteres';
+            }
         }
+
         //Valida Email
-        if (empty($usuario->getEmail())){
-            return $error='El email no puede estar vacio';
-        }else if (filter_var($usuario->getEmail(),FILTER_VALIDATE_EMAIL)){
-            return $error='El email no es valido';
+        if (empty($this->getEmail())){
+            return 'El email no puede estar vacio';
+        }else if (!filter_var($this->getEmail(),FILTER_VALIDATE_EMAIL)){
+            return 'El email no es valido';
         }
         //Valida Password
-        if (empty($usuario->getPassword())){
-            return $error='La contraseña no puede estar vacia';
-        }else if (!ValidationUtils::validarContrasena($usuario->getPassword())) {
-            return $error = 'La contraseña no es valida';
-        }else if(!ValidationUtils::TextoNoEsMayorQue($usuario->getPassword(),70)){
-            return $error='La contraseña no puede tener mas de 70 caracteres';
+        if (empty($this->getPassword())){
+            return 'La contraseña no puede estar vacia';
+        }else if (!ValidationUtils::validarContrasena($this->getPassword())) {
+            return 'La contraseña no es valida';
+        }else if(!ValidationUtils::TextoNoEsMayorQue($this->getPassword(),70)){
+            return 'La contraseña no puede tener mas de 70 caracteres';
         }
-        $error=null;
-        return $error;
-    }
-    public function obtenerPassword($email){
-        $select= $this->db->prepara("SELECT * FROM usuarios WHERE email = :email");
-        $select->bindValue(':email', $email);
-        $select->execute();
-        return $resultados = $select->fetch(PDO::FETCH_ASSOC);
+        return null;
     }
 
-    public function login(){
-        $result=false;
-        $email = $this->getEmail();
-        $password=$this->getPassword();
-        $usuario=$this->buscaMail($email);
-        if ($usuario !==false){
-            $verify=password_verify($password,$usuario->password);
-            if ($verify){
-                return $usuario;
-            }
+    public function comprobarPassword($pasword){
+        if (password_verify($this->getPassword(),$pasword)){
+            return true;
+        }else{
+            return false;
         }
+    }
 
-    }
-    public function buscaMail($email){
-        $cons=$this->db->prepara("SELECT * FROM usuarios WHERE email=:email");
-        $cons->bindValue(':email',$email,PDO::PARAM_STR);
-        try{
-            $cons->execute();
-            if ($cons && $cons->rowCount()==1){
-                $result=$cons->fetch(PDO::FETCH_OBJ);
-            }
-        }catch (PDOException $err){
-            $result=false;
-        }
-        return $result;
-    }
     public function validar(){}
 
     public function sanear(){}

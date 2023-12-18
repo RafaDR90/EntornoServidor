@@ -8,7 +8,7 @@
     </ul>
 <?php endif; ?>
 <ul>
-    <?php if (isset($_SESSION['identity'])&& $_SESSION['identity']->rol=='admin'): ?>
+    <?php if (isset($_SESSION['identity'])&& $_SESSION['identity']['rol']=='admin'): ?>
     <?php $categorias= categoriaController::obtenerCategorias();
 
     foreach ($categorias as $categoria):?>

@@ -27,7 +27,44 @@ class usuarioRepository{
             $result=true;
         }catch (PDOException $err){
             $result=false;
+        } finally {
+            $this->db->cierraConexion();
         }
         return $result;
+    }
+
+    public function compruebaCorreo($email){
+        try{
+            $sel=$this->db->prepara("SELECT email FROM usuarios WHERE email=:email");
+            $sel->bindValue(':email',$email);
+            $sel->execute();
+            if ($sel->rowCount()>0) {
+                return true;
+            }else{
+                return false;
+            }
+        }catch (PDOException $err){
+            return $err->getMessage();
+        }
+    }
+    public function getUsuarioFromEmail($email){
+        try{
+            $sel=$this->db->prepara("SELECT * FROM usuarios WHERE email=:email");
+            $sel->bindValue(':email',$email);
+            $sel->execute();
+            if ($sel->rowCount()>0) {
+                $usuario=$sel->fetch(PDO::FETCH_ASSOC);
+                return $usuario;
+            }else{
+                return false;
+            }
+        }catch (PDOException $err){
+            return $err->getMessage();
+        } finally {
+            $this->db->cierraConexion();
+        }
+    }
+    public function cierraConexion(){
+        $this->db->cierraConexion();
     }
 }

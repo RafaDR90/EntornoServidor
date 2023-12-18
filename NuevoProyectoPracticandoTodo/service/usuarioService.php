@@ -10,4 +10,13 @@ class usuarioService{
     public function createUser($usuario){
         return $this->usuarioRepository->createUser($usuario);
     }
+    public function compruebaCorreo($email){
+        return $this->usuarioRepository->compruebaCorreo($email);
+    }
+    public function getUsuarioFromEmail($email){
+        return $this->usuarioRepository->getUsuarioFromEmail($email);
+    }
+    public function cierraConexion(){
+        $this->usuarioRepository->cierraConexion();
+    }
 }

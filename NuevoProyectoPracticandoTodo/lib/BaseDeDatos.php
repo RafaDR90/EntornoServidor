@@ -51,4 +51,25 @@ class BaseDeDatos {
     public function cierraConexion(){
         $this->conexion=null;
     }
+
+    /**
+     * Inicia una transacción en la base de datos.
+     */
+    public function beginTransaction() {
+        $this->conexion->beginTransaction();
+    }
+
+    /**
+     * Confirma una transacción en la base de datos, haciendo permanentes los cambios.
+     */
+    public function commit() {
+        $this->conexion->commit();
+    }
+
+    /**
+     * Revierte una transacción en la base de datos, deshaciendo los cambios.
+     */
+    public function rollBack() {
+        $this->conexion->rollBack();
+    }
 }

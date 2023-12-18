@@ -15,16 +15,16 @@
     <header>
         <h1>TIENDA</h1>
         <ul>
-        <?php if (isset($_SESSION['identity'])): ?>
+        <?php
+        if (isset($_SESSION['identity'])): ?>
             <li><a href="<?= BASE_URL ?>usuario/logout/">Cerrar sesion</a></li>
-            <li><a href="<?= BASE_URL ?>usuario/registro/">Crear cuenta</a></li>
-            <?php if ($_SESSION['identity']->rol=='admin'): ?>
+            <?php if ($_SESSION['identity']['rol']=='admin'): ?>
             <li><a href="<?= BASE_URL ?>categoria/gestionarCategorias/">Gestionar categorias</a></li>
             <li><a href="">Gestionar productos</a></li>
             <?php endif;?>
         <?php else: ?>
-            <li><a href="<?= BASE_URL ?>usuario/indetifica/">Identificate</a></li>
             <li><a href="<?= BASE_URL ?>usuario/registro/">Crear cuenta</a></li>
+            <li><a href="<?= BASE_URL ?>usuario/indentifica/">Identificate</a></li>
             <?php endif; ?>
             <li><a href="<?=BASE_URL?>carrito/mostrarCarrito/">Ver Carrito</a></li>
         </ul>
@@ -45,5 +45,6 @@
             <strong class="error"><?=$error?></strong>
         <?php endif; ?>
         </div>
+        <h1>LO ULTIMO QUE HE HECHO HA SIDO ELIMINAR CATEGORIA (esto esta en el header)</h1>
     </header>
 <main>

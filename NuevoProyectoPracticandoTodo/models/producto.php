@@ -46,24 +46,7 @@ class producto{
         return $productos;
     }
 
-    public function getProductoById(int $id)
-    {
-        $errores='';
-        try{
-            $this->sql=$this->db->prepara("SELECT * FROM productos WHERE categoria_id=:id");
-            $this->sql->bindParam(':id',$id,PDO::PARAM_INT);
-            $this->sql->execute();
-            $resultado=$this->sql->fetchAll(PDO::FETCH_ASSOC);
 
-        }catch (\PDOException $e){
-            $resultado['error']=$e->getMessage();
-        }
-        $this->sql->closeCursor();
-        $this->sql=null;
-        $this->db->cierraConexion();
-        return $resultado;
-
-    }
     public function getProductoByIdProducto(){
         if (!session_status() == PHP_SESSION_ACTIVE) {
             session_start();

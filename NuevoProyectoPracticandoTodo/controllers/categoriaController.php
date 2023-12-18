@@ -1,17 +1,23 @@
 <?php
 namespace controllers;
 use lib\Pages,
-    models\categoria;
+    models\categoria,
+    service\categoriaService;
 use utils\utils;
+use utils\ValidationUtils;
 
 class categoriaController{
+    private categoriaService $categoriaService;
+    private Pages $pages;
     public function __construct()
     {
+        $this->categoriaService=new categoriaService();
         $this->pages=new Pages();
     }
 
     public static function obtenerCategorias(){
-        $categorias= categoria::getAll();
+        $categoriaService=new categoriaService();
+        $categorias=$categoriaService->getAll();
         return categoria::fromArray($categorias);
 
     }
@@ -23,8 +29,13 @@ class categoriaController{
     }
 
     public function eliminarCategoriaPorId(){
-        $categoria=new categoria();
-        $categoria->borrarCategoriaPorId($_GET['idCategoria']);
+        $idCategoria=$_GET['idCategoria'];
+        $idCategoria=ValidationUtils::SVNumero($idCategoria);
+        if(!isset($idCategoria)){
+            $this->pages->render('categoria/mostrarGestionCategorias',['error'=>'Ha que ha ocurrido un error inesperado']);
+            exit();
+        }
+        $this->categoriaService->borrarCategoriaPorId($_GET['idCategoria']);
         header('Location:'.BASE_URL.'categoria/gestionarCategorias/');
     }
 
