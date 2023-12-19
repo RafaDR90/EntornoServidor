@@ -45,6 +45,6 @@
             <strong class="error"><?=$error?></strong>
         <?php endif; ?>
         </div>
-        <h1>LO ULTIMO QUE HE HECHO HA SIDO ELIMINAR CATEGORIA (esto esta en el header)</h1>
+        <h1>LO ULTIMO QUE HE HECHO HA SIDO vista de productos (esto esta en el header)</h1>
     </header>
 <main>

@@ -1,3 +1,7 @@
+/*Categoria*/
+@import url('./categoria/editaCategoria.css');
+/*Productos*/
+@import url('./productos/gestionProductos.css');
 body {
     font-family: Arial, sans-serif;
     margin: 0;

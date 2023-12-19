@@ -15,4 +15,10 @@ class categoriaService{
     public function borrarCategoriaPorId(int $id){
         $this->categoriaRepository->borrarCategoriaPorId($id);
     }
+    public function obtenerCategoriaPorID(int $id){
+        return $this->categoriaRepository->obtenerCategoriaPorID($id);
+    }
+    public function update($categoria){
+        return $this->categoriaRepository->update($categoria);
+    }
 }

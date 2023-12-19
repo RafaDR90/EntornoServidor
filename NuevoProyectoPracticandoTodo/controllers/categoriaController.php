@@ -40,24 +40,53 @@ class categoriaController{
     }
 
     public function editarCategoria(){
-        if(!isset($_POST['nombre'])){
+        if(!isset($_POST['nuevoNombre'])){
             if (isset($_GET['idCategoria'])){
-                $categoria=new categoria();
-                $resultado=$categoria->obtenerCategoriaPorID($_GET['idCategoria']);
-                $this->pages->render('categoria/editarCategoria',['categoriaEdit'=>$resultado]);
-            }else{
-
-                header('Location:'.BASE_URL.'categoria/gestionarCategorias/');
+                $id=$_GET['idCategoria'];
+                $id=ValidationUtils::SVNumero($id);
+                if (isset($id)){
+                    $resultado=$this->categoriaService->obtenerCategoriaPorID($id);
+                    if(is_string($resultado)){
+                        $this->pages->render('categoria/mostrarGestionCategorias',['error'=>$resultado]);
+                        exit();
+                    }
+                    $resultado=categoria::fromArray([$resultado]);
+                    $this->pages->render('categoria/editarCategoria',['categoriaEdit'=>$resultado]);
+                    exit();
+                }
             }
+            $this->pages->render('categoria/mostrarGestionCategorias',['error'=>'Ha que ha ocurrido un error inesperado']);
         }else{
-            if ($_SERVER['REQUEST_METHOD']=='POST' && isset($_POST['nombre'])){
-                $categoria=new categoria();
-                $categoriaEditada=new categoria($_GET['idCategoria'],$_POST['nombre']);
-                $errores=$categoria->update($categoriaEditada);
-                if($errores){
-                    $this->pages->render('categoria/gestionarCategorias',['errores'=>$errores]);
+            if ($_SERVER['REQUEST_METHOD']=='POST' && isset($_POST['nuevoNombre'])){
+                $id=ValidationUtils::SVNumero($_GET['idCategoria']);
+                if (!isset($id)){
+                    $this->pages->render('categoria/mostrarGestionCategorias',['error'=>'Ha que ha ocurrido un error inesperado']);
+                    exit();
+                }
+                $nuevoNombre=ValidationUtils::sanidarStringFiltro($_POST['nuevoNombre']);
+                if (!ValidationUtils::noEstaVacio($nuevoNombre)){
+                    $error='El nombre no puede estar vacío';
+                }elseif (!ValidationUtils::son_letras($nuevoNombre)){
+                    $error='El nombre solo puede contener letras';
+                }elseif(!ValidationUtils::TextoNoEsMayorQue($nuevoNombre,50)){
+                    $error='El nombre no puede tener más de 50 caracteres';
+                }
+                if (isset($error)){
+                    $oldCategoria=$this->categoriaService->obtenerCategoriaPorID($id);
+                    if(is_string($oldCategoria)){
+                        $this->pages->render('categoria/mostrarGestionCategorias',['error'=>$oldCategoria]);
+                        exit();
+                    }
+                    $oldCategoria=categoria::fromArray([$oldCategoria]);
+                    $this->pages->render('categoria/editarCategoria',['error'=>$error,'categoriaEdit'=>$oldCategoria]);
+                    exit();
+                }
+                $categoriaEditada=new categoria($id,$nuevoNombre);
+                $error=$this->categoriaService->update($categoriaEditada);
+                if($error){
+                    $this->pages->render('categoria/mostrarGestionCategorias',['errores'=>$error]);
                 }else{
-                    header('Location:'.BASE_URL.'categoria/gestionarCategorias/');
+                        $this->pages->render('categoria/mostrarGestionCategorias',['exito'=>'Categoria editada correctamente']);
                 }
             }
         }

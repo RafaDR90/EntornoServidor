@@ -14,11 +14,9 @@ class usuario{
     private string $password;
     private string $rol;
 
-    private BaseDeDatos $db;
 
     public function __construct(string|null $id, string $nombre, string $apellidos, string $email, string $password, string $rol)
     {
-        $this->db=new BaseDeDatos();
         $this->id=$id;
         $this->nombre=$nombre;
         $this->apellidos=$apellidos;

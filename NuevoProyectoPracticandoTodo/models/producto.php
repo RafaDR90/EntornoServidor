@@ -13,8 +13,8 @@ class producto{
     private string $oferta;
     private string $fecha;
     private string $imagen;
-    private BaseDeDatos $db;
-    private mixed $sql;
+
+
 
     public function __construct(?int $id=null, int $categoria_id=null, string $nombre='', string $descripcion='', float $precio=0, int $stock=0, string $oferta='', string $fecha='', string $imagen='')
     {
@@ -47,22 +47,6 @@ class producto{
     }
 
 
-    public function getProductoByIdProducto(){
-        if (!session_status() == PHP_SESSION_ACTIVE) {
-            session_start();
-        }
-        if ($_SESSION['productosCarrito']){
-            if(count($_SESSION['productosCarrito'])>0){
-                $ids=array_keys($_SESSION['productosCarrito']);
-                $ids=implode(',',$ids);
-                $this->db->consulta("SELECT * FROM productos WHERE id IN ($ids)");
-                $resultado=$this->db->extraer_todos();
-                $this->db->cierraConexion();
-                return $resultado;
-            }
-        }
-        return null;
-    }
 
     public function getId(): ?int
     {

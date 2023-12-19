@@ -58,4 +58,34 @@ class categoriaRepository{
         }
 
     }
+    public function obtenerCategoriaPorID(int $id):array{
+        try{
+            $sel=$this->db->prepara("SELECT * FROM categorias WHERE id=:id");
+            $sel->bindValue(':id',$id);
+            $sel->execute();
+            $categoria=$sel->fetch(PDO::FETCH_ASSOC);
+        }catch (\PDOException $e){
+            $categoria=['error'=>$e->getMessage()];
+        } finally {
+            $sel->closeCursor();
+            $this->db->cierraConexion();
+            return $categoria;
+        }
+    }
+
+    public function update($categoria):?string{
+        try{
+            $update=$this->db->prepara("UPDATE categorias SET nombre=:nombre WHERE id=:id");
+            $update->bindValue(':nombre',$categoria->getNombre());
+            $update->bindValue(':id',$categoria->getId());
+            $update->execute();
+            $error=null;
+        }catch (PDOException $e){
+            $error=$e->getMessage();
+        } finally {
+            $update->closeCursor();
+            $this->db->cierraConexion();
+            return $error;
+        }
+    }
 }

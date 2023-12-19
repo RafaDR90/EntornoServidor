@@ -7,3 +7,4 @@ $dotenv->safeLoad();
 
 use controllers\FrontController;
 FrontController::main();
+?>

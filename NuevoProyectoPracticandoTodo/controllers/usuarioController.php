@@ -54,7 +54,7 @@ class usuarioController{
                 if($usuario->comprobarPassword($usuarioFromEmail['password'])){
                     $_SESSION['identity']=$usuarioFromEmail;
                     $nombre=ucfirst(strtolower($_SESSION['identity']['nombre']));
-                    $this->pages->render('producto/gestionProductos', ['exito' => 'Bienvenido '.$nombre]);
+                    $this->pages->render('categoria/mostrarGestionCategorias', ['exito' => 'Bienvenido '.$nombre]);
                 }else{
                     $this->pages->render('usuario/login', ['error' => 'Email o contraseña incorrectos']);
                     exit();

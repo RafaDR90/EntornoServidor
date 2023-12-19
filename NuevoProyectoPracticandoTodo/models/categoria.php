@@ -15,7 +15,18 @@ class categoria{
 
     }
 
-
+    public static function fromArray(array $data):array
+    {
+        $categorias=[];
+        foreach ($data as $dt) {
+            $categoria = new categoria(
+                $dt['id'] ?? null,
+                $dt['nombre'] ?? '',
+            );
+            $categorias[]=$categoria;
+        }
+        return $categorias;
+    }
 
     /**
      * @return mixed
@@ -62,36 +73,9 @@ class categoria{
 
 
 
-    public static function fromArray(array $data):array
-    {
-        $categorias=[];
-        foreach ($data as $dt) {
-            $categoria = new categoria(
-                $dt['id'] ?? null,
-                $dt['nombre'] ?? '',
-            );
-            $categorias[]=$categoria;
-        }
-        return $categorias;
-    }
 
 
 
-    public function update($datos){
-        $resultado='';
-        try{
-            $this->sql=$this->db->prepara("UPDATE categorias SET nombre = :nombre WHERE id = :id");
-            $this->sql->bindValue(':id',$datos->getId());
-            $this->sql->bindValue(':nombre',$datos->getNombre());
-            $this->sql->execute();
-            $resultado=null;
-        }catch (PDOException $e){
-            $resultado=$e->getMessage();
-        }
-        $this->sql->closeCursor();
-        $this->sql=null;
-        $this->db->cierraConexion();
-        return $resultado;
-    }
+
 
 }

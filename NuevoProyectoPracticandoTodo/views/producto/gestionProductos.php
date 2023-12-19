@@ -1,15 +1,30 @@
-<?php if(isset($_GET['productoAñadido'])):?>
-    <h3>Producto añadido al carrito</h3>
-<?php endif;
-?>
-<ul>
-    <?php if (isset($_SESSION['identity'])):
-    foreach ($productos as $producto):?>
-    <li><span><?=$producto->getNombre()?></span><span><a href="<?=BASE_URL?>carrito/añadirProducto/?idProducto=<?=$producto->getId()?>&idCategoria=<?=$_GET['idCategoria']?>">Comprar</a></span></li>
-
+<div class="productosContainer">
+<?php
+    foreach ($productos as $producto):
+        $oferta=null;
+        if($producto->getOferta()=='si'){
+            $oferta='Oferta';
+        }?>
+    <div class="productoCard<?=$oferta?>">
+        <?php if (isset($oferta)):?>
+        <h3>¡Oferta!</h3>
+        <?php endif;?>
+        <p class="nombre__Producto"><?=$producto->getNombre()?></p>
+        <p class="descripcion__Producto"<?=$producto->getDescripcion()?>></p>
+        <div class="imgContainer">
+            <img src="../../img/productos/<?=$producto->getImagen()?>" alt="Imagen del producto">
+        </div>
+        <p class="precio__Producto"><?=$producto->getPrecio()?>€</p>
+        <p class="stock__Producto"><?=$producto->getStock()?> unidades disponibles</p>
+        <a class="botonAddCesta" href="<?=BASE_URL?>carrito/añadirProducto/?idProducto=<?=$producto->getId()?>&idCategoria=<?=$_GET['idCategoria']?>">Añadir a la cesta</a>
+        <?php if(isset($_SESSION['identity'])):
+                if($_SESSION['identity']['rol']=='admin'):?>
+        <div class="editarEliminarContainer"><a class="boton" href="">Editar producto</a><a class="boton" href="">Eliminar producto</a></div>
+        <?php endif;
+        endif;?>
+    </div>
 <?php endforeach;
-endif;
 if (isset($_SESSION['productosCarrito']))
-var_dump($_SESSION['productosCarrito']);
+
 ?>
-</ul>
+</div>
