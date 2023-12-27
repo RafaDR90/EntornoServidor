@@ -1,9 +1,9 @@
 <?php
 namespace controllers;
 
-use services\ContactoService;
 use models\Contacto_Ne_pp;
-use lib\Pages;
+use services\ContactoService;
+use src\Lib\Pages;
 
 class ContactoController{
 

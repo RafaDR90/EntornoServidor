@@ -2,10 +2,9 @@
 
 namespace Controllers;
 
-use lib\BaseDeDatos;
-use lib\Pages;
 use Model\Contacto;
 use services\ContactoService;
+use src\Lib\Pages;
 
 class ContactoController{
     private Contacto $contact;

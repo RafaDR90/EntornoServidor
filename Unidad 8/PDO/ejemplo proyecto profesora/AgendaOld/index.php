@@ -4,8 +4,7 @@ require_once './config/config.php';
 
 
 use Lib\Router;
-use controllers\ContactoController;
-use lib\Pages;
+use src\Lib\Pages;
 
 $pages = new Pages();
 $pages->render('/layout/Header');

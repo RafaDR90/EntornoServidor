@@ -1,6 +1,8 @@
 <?php
 namespace utils;
 
+use DateTime;
+
 class ValidationUtils
 {
     /**
@@ -17,6 +19,31 @@ class ValidationUtils
         } else {
             return null;
         }
+    }
+
+    /**
+     * Sanea y Valida numero y lo devuelve en Float
+     * @param string $input
+     * @return float|null
+     */
+    public static function SVNumeroFloat($num): ?float
+    {
+        $cleanedInput = htmlspecialchars(trim($num), ENT_QUOTES, 'utf-8');
+        if (is_numeric($cleanedInput)) {
+            $validatedInteger = (float)$cleanedInput;
+            return $validatedInteger;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Sanea un booleano
+     * @param $value
+     * @return mixed
+     */
+    public static function SBoolean($value) {
+        return filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
 
     /**
@@ -71,7 +98,7 @@ class ValidationUtils
      */
     public static function son_letras_y_numeros(string $texto): bool
     {
-        $patron = "/^[a-zA-Záéíóú\s]+$/u";
+        $patron = "/^[a-zA-Záéíóú0-9\s]+$/u";
         return preg_match($patron, $texto) === 1;
     }
 
@@ -96,4 +123,25 @@ class ValidationUtils
         // Verifica si la contraseña contiene solo letras (mayúsculas y minúsculas), números y los caracteres especiales: _ / .
         return preg_match('/^[A-Za-z0-9_\/.]+$/', $password) === 1;
     }
+
+    /**
+     * Valida una fecha y la devuelve la fecha o null si no es valida
+     * @param $date string fecha a validar
+     * @param $format string formato de la fecha
+     * @return null si la fecha no es valida
+     */
+    public static function sanitizeAndValidateDate($date, $format = 'Y-m-d') {
+        try {
+            $dateTime = new DateTime($date);
+
+            if ($dateTime && $dateTime->format($format) === $date) {
+                return $dateTime->format($format);
+            } else {
+                return null;
+            }
+        } catch (Exception $e) {
+            return null;
+        }
+    }
+
 }

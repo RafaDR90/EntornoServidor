@@ -1,8 +1,5 @@
 <?php
 namespace models;
-use lib\BaseDatos_e_Np,
-    PDO,
-    PDOException;
 
 class Contacto_e_Np{
     private mixed $stmt;

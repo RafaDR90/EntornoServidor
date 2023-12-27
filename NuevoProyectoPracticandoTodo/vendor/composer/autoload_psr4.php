@@ -7,11 +7,11 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'utils\\' => array($baseDir . '/utils'),
-    'service\\' => array($baseDir . '/service'),
-    'repository\\' => array($baseDir . '/repository'),
-    'models\\' => array($baseDir . '/models'),
-    'lib\\' => array($baseDir . '/lib'),
-    'controllers\\' => array($baseDir . '/controllers'),
+    'service\\' => array($baseDir . '/src/service'),
+    'repository\\' => array($baseDir . '/src/repository'),
+    'models\\' => array($baseDir . '/src/models'),
+    'lib\\' => array($baseDir . '/src/lib'),
+    'controllers\\' => array($baseDir . '/src/controllers'),
     'Yes\\NuevoProyectoPracticandoTodo\\' => array($baseDir . '/'),
     'Symfony\\Polyfill\\Php80\\' => array($vendorDir . '/symfony/polyfill-php80'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
@@ -19,4 +19,5 @@ return array(
     'PhpOption\\' => array($vendorDir . '/phpoption/phpoption/src/PhpOption'),
     'GrahamCampbell\\ResultType\\' => array($vendorDir . '/graham-campbell/result-type/src'),
     'Dotenv\\' => array($vendorDir . '/vlucas/phpdotenv/src'),
+    'App\\' => array($baseDir . '/src'),
 );

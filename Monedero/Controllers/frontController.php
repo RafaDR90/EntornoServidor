@@ -1,5 +1,6 @@
 <?php
 namespace Controllers;
+
 class frontController{
     public static function main(){
             if (isset($_GET["controller"])){

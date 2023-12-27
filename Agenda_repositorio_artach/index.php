@@ -12,8 +12,9 @@
         require_once 'config/config.php';
         require_once 'vendor/autoload.php';
 
-        use Controllers\FrontController;
-        FrontController::main();
+    use Controllers\FrontController;
+
+    FrontController::main();
     ?>
 
 </body>

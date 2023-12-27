@@ -59,6 +59,10 @@ class ComposerStaticInit268acb35806effb0433052fd652303d8
         array (
             'Dotenv\\' => 7,
         ),
+        'A' => 
+        array (
+            'App\\' => 4,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -68,23 +72,23 @@ class ComposerStaticInit268acb35806effb0433052fd652303d8
         ),
         'service\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/service',
+            0 => __DIR__ . '/../..' . '/src/service',
         ),
         'repository\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/repository',
+            0 => __DIR__ . '/../..' . '/src/repository',
         ),
         'models\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/models',
+            0 => __DIR__ . '/../..' . '/src/models',
         ),
         'lib\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/lib',
+            0 => __DIR__ . '/../..' . '/src/lib',
         ),
         'controllers\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/controllers',
+            0 => __DIR__ . '/../..' . '/src/controllers',
         ),
         'Yes\\NuevoProyectoPracticandoTodo\\' => 
         array (
@@ -114,6 +118,20 @@ class ComposerStaticInit268acb35806effb0433052fd652303d8
         array (
             0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
         ),
+        'App\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
+        ),
+    );
+
+    public static $prefixesPsr0 = array (
+        'J' => 
+        array (
+            'JasonGrimes' => 
+            array (
+                0 => __DIR__ . '/..' . '/jasongrimes/paginator/src',
+            ),
+        ),
     );
 
     public static $classMap = array (
@@ -130,6 +148,7 @@ class ComposerStaticInit268acb35806effb0433052fd652303d8
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit268acb35806effb0433052fd652303d8::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit268acb35806effb0433052fd652303d8::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit268acb35806effb0433052fd652303d8::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit268acb35806effb0433052fd652303d8::$classMap;
 
         }, null, ClassLoader::class);

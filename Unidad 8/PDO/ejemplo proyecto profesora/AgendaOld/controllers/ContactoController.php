@@ -2,7 +2,7 @@
 namespace controllers;
 
 use models\Contacto_e_Np;
-use lib\Pages;
+use src\Lib\Pages;
 
 class ContactoController{
 
