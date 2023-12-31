@@ -15,28 +15,13 @@ class productoRepository{
      * @param int $id
      * @return array|false|string
      */
-    public function getProductoById(int $id)
-    {
+    public function productosPorCategoria($id){
         try{
             $sel=$this->db->prepara("SELECT * FROM productos WHERE categoria_id=:id");
             $sel->bindParam(':id',$id,PDO::PARAM_INT);
             $sel->execute();
             $resultado=$sel->fetchAll(PDO::FETCH_ASSOC);
 
-        }catch (\PDOException $e){
-            $resultado=$e->getMessage();
-        } finally {
-            $sel->closeCursor();
-            $this->db->cierraConexion();
-            return $resultado;
-        }
-    }
-
-    public function getDiezProductosRandom(){
-        try{
-            $sel=$this->db->prepara("SELECT * FROM productos ORDER BY RAND() LIMIT 10");
-            $sel->execute();
-            $resultado=$sel->fetchAll(PDO::FETCH_ASSOC);
         }catch (\PDOException $e){
             $resultado=$e->getMessage();
         } finally {
@@ -144,6 +129,22 @@ class productoRepository{
             $update=$this->db->prepara("UPDATE productos SET imagen=:imagen WHERE id=:id");
             $update->bindValue(':id',$id);
             $update->bindValue(':imagen',$imagen);
+            $update->execute();
+        }catch (PDOException $e){
+            $error=$e->getMessage();
+        } finally {
+            $update->closeCursor();
+            $this->db->cierraConexion();
+            return $error;
+        }
+    }
+    public function restarStock($id,$unidades){
+        $error=null;
+        try{
+            $this->db=new BaseDeDatos();
+            $update=$this->db->prepara("UPDATE productos SET stock=stock-:unidades WHERE id=:id");
+            $update->bindValue(':id',$id);
+            $update->bindValue(':unidades',$unidades);
             $update->execute();
         }catch (PDOException $e){
             $error=$e->getMessage();

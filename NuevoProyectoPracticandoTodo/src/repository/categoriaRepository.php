@@ -10,14 +10,14 @@ class categoriaRepository{
         $this->db=new BaseDeDatos();
     }
 
-    public function getAll():array
+    public function getAll():array|string
     {
         try{
             $sel=$this->db->prepara("SELECT * FROM categorias ORDER BY id DESC");
             $sel->execute();
             $categorias=$sel->fetchAll(PDO::FETCH_ASSOC);
         }catch (\PDOException $e){
-            $categorias=['error'=>$e->getMessage()];
+            $categorias=$e->getMessage();
         } finally {
             $sel->closeCursor();
             $this->db->cierraConexion();
@@ -58,14 +58,20 @@ class categoriaRepository{
         }
 
     }
-    public function obtenerCategoriaPorID(int $id):array{
+
+    /**
+     * Obtiene una categoría por su ID.
+     * @param int $id El ID de la categoría a obtener.
+     * @return array|string Devuelve un array con los datos de la categoría, o un string con el mensaje de error.
+     */
+    public function obtenerCategoriaPorID(int $id):array | string{
         try{
             $sel=$this->db->prepara("SELECT * FROM categorias WHERE id=:id");
             $sel->bindValue(':id',$id);
             $sel->execute();
             $categoria=$sel->fetch(PDO::FETCH_ASSOC);
         }catch (\PDOException $e){
-            $categoria=['error'=>$e->getMessage()];
+            $categoria=$e->getMessage();
         } finally {
             $sel->closeCursor();
             $this->db->cierraConexion();

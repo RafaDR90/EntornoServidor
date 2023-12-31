@@ -5,6 +5,12 @@
 @import url('productos/gestionProductos.css');
 @import url('pagination/pagination.css');
 @import url('productos/editaProducto.css');
+@import url('productos/addProducto.css');
+@import url('productos/index.css');
+/*Carrito*/
+@import url('carrito/vistaCarrito.css');
+/*Usuario*/
+@import url('usuario/gestionUsuarios.css');
 body {
     font-family: Arial, sans-serif;
     margin: 0;

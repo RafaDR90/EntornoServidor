@@ -10,25 +10,25 @@
     max-width: 400px;
 }
 
-h3 {
+.editaCategoriaContainer h3 {
     color: #333;
     margin-bottom: 20px;
     text-align: center;
 }
 
-form {
+.editaCategoriaContainer form {
     display: flex;
     flex-direction: column;
 }
 
-label {
+.editaCategoriaContainer label {
     display: block;
     margin-bottom: 10px;
     font-weight: bold;
     color: #555;
 }
 
-input[type="text"] {
+.editaCategoriaContainer input[type="text"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 20px;
@@ -57,7 +57,7 @@ input[type="submit"]:hover {
         margin: 10px;
     }
 
-    form {
+    .editaCategoriaContainer form {
         width: auto;
     }
 }

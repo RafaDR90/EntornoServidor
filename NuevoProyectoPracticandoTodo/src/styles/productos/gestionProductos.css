@@ -1,6 +1,7 @@
 .gestionaProductosContainer {
-    width: 100%;
-    margin: 0 auto;
+    width: 80%;
+    margin-top: 2.5vh;
+
     padding: 20px;
     min-height: 550px;
     box-shadow: 0 2px 5px black;

@@ -8,16 +8,14 @@ class productoService{
         $this->productoRepository=new productoRepository();
     }
 
-    public function getProductoById(int $id){
-        return $this->productoRepository->getProductoById($id);
-    }
 
-    public function getDiezProductosRandom(){
-        return $this->productoRepository->getDiezProductosRandom();
-    }
+
 
     public function addProducto($producto){
         return $this->productoRepository->addProducto($producto);
+    }
+    public function productosPorCategoria($id){
+        return $this->productoRepository->productosPorCategoria($id);
     }
 
     public function eliminarProducto($id){
@@ -36,5 +34,8 @@ class productoService{
 
     public function editarImagenProducto($id,$imagen){
         return $this->productoRepository->editarImagenProducto($id,$imagen);
+    }
+    public function restarStock($id,$unidades){
+        return $this->productoRepository->restarStock($id,$unidades);
     }
 }

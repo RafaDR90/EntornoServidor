@@ -26,7 +26,7 @@ class productoController{
      * de lo contrario, muestra la pagina de gestion de productos sin productos hasta que seleccione una categoria.
      * @return void
      */
-    public function muestraGestionProductos(){
+    public function muestraGestionProductos():void{
         if (!isset($_SESSION['identity'])){
             if ($_SESSION['identity']['rol']=='admin'){
                 $this->pages->render('producto/muestraInicio',['error'=>'No tienes permisos para acceder a esta página']);
@@ -50,24 +50,29 @@ class productoController{
                     exit();
                 }
                 $_SESSION['editandoProducto']=$id;
-                $productos=$this->productoService->getProductoById($id);
+                $productos=$this->productoService->productosPorCategoria($id);
                 if (is_string($productos)){
                     $this->pages->render('producto/gestionProductos',['error'=>$productos]);
                     exit();
                 }
             }elseif(isset($_SESSION['editandoProducto'])){
-                $productos=$this->productoService->getProductoById($_SESSION['editandoProducto']);
+                $productos=$this->productoService->productosPorCategoria($_SESSION['editandoProducto']);
                 if (is_string($productos)){
                     $this->pages->render('producto/gestionProductos',['error'=>$productos]);
                     exit();
                 }
             }
             $productos=producto::fromArray($productos);
-            $this->pages->render('producto/gestionProductos', ['productos' => $productos]);
+            $this->pages->render('producto/gestionProductos', ['gProductos' => $productos]);
         }
     }
 
-    public function obtenerProductosPorId($id){
+    /**
+     * Obtiene productos por ID de categoria y los muestra en la vista de productos.
+     * @param $id int ID de categoria
+     * @return void
+     */
+    public function obtenerProductosPorId($id):void{
         if (!isset($id)){
             $this->pages->render('producto/muestraInicio',['error'=>'Ha ocurrido un error inesperado']);
             exit();
@@ -77,55 +82,34 @@ class productoController{
             $this->pages->render('producto/muestraInicio',['error'=>'Ha ocurrido un error inesperado']);
             exit();
         }
-        $productos= $this->productoService->getProductoById($id);
+        $productos= $this->productoService->productosPorCategoria($id);
         if (is_string($productos)) {
             $this->pages->render('producto/muestraProductos', ['error' => $productos]);
         } else {
-                $this->pages->render('producto/muestraProductos', ['productos' => producto::fromArray($productos)]);
+                $this->pages->render('producto/muestraProductos', ['vProductos' => producto::fromArray($productos)]);
         }
-    }
-
-    public static function muestraDiezProductosRandom(){
-        $productoService=new productoService();
-        $productos=$productoService->getDiezProductosRandom();
-        return producto::fromArray($productos);
     }
 
     /**
-     * Muestra la pagina de gestion de productos, si viene por post, muestra los productos de la categoria seleccionada,
-     * si no viene por post, pero existe la session editandoProducto, muestra los productos de la categoria de la session,
-     * de lo contrario, muestra la pagina de gestion de productos sin productos hasta que seleccione una categoria.
-     * @return void
+     * Obtiene un producto por ID de Categoria de forma estatica.
+     * @param $id int ID de categoria
+     * @return array|null array de productos o null si hay un error.
      */
-    public function muestraProductosPorCategoria():void
-    {
-        if (isset($_SESSION['identity'])){
-            if ($_SESSION['identity']['rol']=='admin'){
-                if ($_SERVER['REQUEST_METHOD']!='POST'){
-                    $this->pages->render('producto/gestionProductos', ['categorias' => categoriaController::obtenerCategorias()]);
-                    exit();
-                }else{
-                    $id=ValidationUtils::SVNumero($_POST['categoria']);
-                    if (!isset($id)){
-                        $this->pages->render('producto/gestionProductos', ['categorias' => categoriaController::obtenerCategorias(),'error'=>'Ha ocurrido un error inesperado']);
-                        exit();
-                    }
-                    $productos=$this->productoService->getProductoById($id);
-                    if (is_string($productos)){
-                        $this->pages->render('producto/gestionProductos', ['categorias' => categoriaController::obtenerCategorias(),'error'=>$productos]);
-                        exit();
-                    }else{
-                        $this->pages->render('producto/gestionProductos', ['categorias' => categoriaController::obtenerCategorias(),'productos'=>producto::fromArray($productos)]);
-                        exit();
-                    }
-                }
-
-            }
+    public static function productosPorCategoria($id):?array{
+        $productoService=new productoService();
+        $productos=$productoService->productosPorCategoria($id);
+        if (is_string($productos)){
+            return null;
         }
-        $this->pages->render('producto/muestraInicio',['error'=>'Debes identificarte como administrador para poder administrar productos']);
+        return producto::fromArray($productos);
     }
 
-    public function addProducto(){
+
+    /**
+     * Muestra la vista de añadir producto, si viene por post, valida los datos y añade el producto a la base de datos.
+     * @return void
+     */
+    public function addProducto():void{
         if (!isset($_SESSION['identity'])|| $_SESSION['identity']['rol']!='admin'){
             $this->pages->render('producto/muestraInicio',['error'=>'No tienes permisos para acceder a esta página']);
             exit();
@@ -134,11 +118,14 @@ class productoController{
             $this->pages->render('producto/addProducto');
         }else{
             $directorioImg="./../src/img/productos/";
+            // Comprueba si el directorio existe, si no existe, lo crea.
             if (!is_dir($directorioImg)){
                 mkdir($directorioImg, 0777, true);
             }
             $categoriaService=new categoriaService();
+            // Obtiene los datos de la categoria para añadirlos al nombre de la imagen
             $datosCategoria=$categoriaService->obtenerCategoriaPorID($_SESSION['editandoProducto']);
+            // En caso de error muestra el error
             if (is_string($datosCategoria)){
                 $this->pages->render('producto/addProducto',['error'=>$datosCategoria]);
                 exit();
@@ -180,6 +167,7 @@ class productoController{
                 $this->pages->render('producto/addProducto',['error'=>$datos]);
                 exit();
             }
+            //Transforma el array de datos en objeto producto (No se usa fromArray porque no todos los datos estan en el array)
             $productoModel->setNombre($datos['nombre']);
             $productoModel->setDescripcion($datos['descripcion']);
             $productoModel->setPrecio($datos['precio']);
@@ -208,7 +196,12 @@ class productoController{
         }
     }
 
-    public function eliminarProducto($id){
+    /**
+     * Elimina un producto por ID de producto.
+     * @param $id int ID de producto
+     * @return void renderiza la vista de gestion de productos
+     */
+    public function eliminarProducto($id):void{
         if (!isset($_SESSION['identity'])|| $_SESSION['identity']['rol']!='admin'){
             $this->pages->render('producto/muestraInicio',['error'=>'No tienes permisos para acceder a esta página']);
             exit();
@@ -221,6 +214,7 @@ class productoController{
             $this->pages->render('producto/muestraInicio',['error'=>'Ha ocurrido un error inesperado']);
             exit();
         }
+        //obtiene el nombre de la imagen del producto a eliminar para poder eliminarla
         $productoAEliminar=$this->productoService->obtenerNombreImagen($id);
         if (is_string($productoAEliminar)){
             $this->pages->render('producto/gestionProductos',['error'=>"No se encuentra el producto a eliminar"]);
@@ -231,13 +225,19 @@ class productoController{
             $this->pages->render('producto/gestionProductos',['error'=>$error]);
             exit();
         }
+        //elimina la imagen del producto
         if (file_exists("./../src/img/productos/".$productoAEliminar['imagen'])){
             unlink("./../src/img/productos/".$productoAEliminar['imagen']);
         }
         $this->pages->render('producto/gestionProductos',['exito'=>'Producto eliminado correctamente']);
     }
 
-    public function editarProducto($id){
+    /**
+     * Muestra la vista de editar producto, si viene por post, valida los datos y edita el producto en la base de datos.
+     * @param $id int ID de producto
+     * @return void renderiza la vista de gestion de productos
+     */
+    public function editarProducto($id):void{
         if (!isset($_SESSION['identity'])|| $_SESSION['identity']['rol']!='admin'){
             $this->pages->render('producto/muestraInicio',['error'=>'No tienes permisos para acceder a esta página']);
             exit();
@@ -256,10 +256,16 @@ class productoController{
             exit();
         }
         $producto=producto::fromArray([$producto]);
-        $this->pages->render('producto/editarProducto',['producto'=>$producto[0]]);
+        $this->pages->render('producto/editarProducto',['productoEdit'=>$producto[0]]);
     }
 
-    public function confirmaEdicion($id,$edit){
+    /**
+     * Es la continuacion de la funcion anterior, si viene por post redirige a esta funcion que valida los datos y edita
+     * @param $id int ID de producto
+     * @param $edit array datos del producto a editar
+     * @return void renderiza la vista de gestion de productos
+     */
+    public function confirmaEdicion($id, $edit):void{
         if (!isset($_SESSION['identity'])|| $_SESSION['identity']['rol']!='admin'){
             $this->pages->render('producto/muestraInicio',['error'=>'No tienes permisos para acceder a esta página']);
             exit();
@@ -405,4 +411,6 @@ class productoController{
             $this->pages->render('producto/gestionProductos',['exito'=>'Producto editado con exito']);
         }
     }
+
+
 }

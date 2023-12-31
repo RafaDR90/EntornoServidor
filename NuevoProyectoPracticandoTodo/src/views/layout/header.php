@@ -1,4 +1,5 @@
-<?php use controllers\categoriaController; ?>
+<?php use controllers\categoriaController,
+          controllers\productoController;?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -13,7 +14,7 @@
 </head>
 <body>
     <header>
-        <h1>TIENDA</h1>
+        <h1><a href="<?=BASE_URL?>">TIENDA</a></h1>
         <ul>
         <?php
         if (isset($_SESSION['identity'])): ?>
@@ -21,21 +22,34 @@
             <?php if ($_SESSION['identity']['rol']=='admin'): ?>
             <li><a href="<?= BASE_URL ?>gestionarCategorias">Gestionar categorias</a></li>
             <li><a href="<?= BASE_URL ?>gestion-productos">Gestionar productos</a></li>
+            <li><a href="<?=BASE_URL?>gestion-usuarios">Gestionar usuarios</a></li>
             <?php endif;?>
         <?php else: ?>
             <li><a href="<?= BASE_URL ?>CreateAccount">Crear cuenta</a></li>
             <li><a href="<?= BASE_URL ?>Login">Identificate</a></li>
             <?php endif; ?>
-            <li><a href="<?=BASE_URL?>carrito/mostrarCarrito/">Ver Carrito</a></li>
+            <li><a href="<?=BASE_URL?>mostrarCarrito">Ver Carrito</a></li>
         </ul>
         <?php $categorias= categoriaController::obtenerCategorias();?>
         <nav class="navPrincipal">
             <ul style="display: flex; gap: 15px">
-                <?php foreach ($categorias as $categoria):?>
+                <?php foreach ($categorias as $categoria):
+                    // Compruebo si hay productos en stock para mostrar la categoria
+                    $hProductos=productoController::productosPorCategoria($categoria->getId());
+                    if (isset($hProductos) and !empty($hProductos)){
+                        $stock=null;
+                        foreach ($hProductos as $producto){
+                            if ($producto->getStock()>0){
+                                $stock=true;
+                            }
+                        }
+                    }
+                    if (isset($stock)): ?>
                     <li>
-                        <a href="<?=BASE_URL?>producto/obtenerProductosPorId/?idCategoria=<?= $categoria->getId() ?>"><?php echo $categoria->getNombre(); ?></a>
+                        <a href="<?=BASE_URL?>productos/<?= $categoria->getId() ?>"><?php echo $categoria->getNombre(); ?></a>
                     </li>
-                <?php endforeach;?>
+                <?php endif;
+                endforeach;?>
             </ul>
         </nav>
         <div class="mensajesError">

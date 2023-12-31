@@ -4,6 +4,7 @@ use models\usuario;
 use service\usuarioService;
 use lib\Pages;
 use utils\utils;
+use utils\ValidationUtils;
 
 class usuarioController{
     private usuarioService $usuarioService;
@@ -15,7 +16,11 @@ class usuarioController{
         $this->pages=new Pages();
     }
 
-    public function login(){
+    /**
+     * funcion que muestra la vista de login y si viene por post comprueba los datos y si son correctos inicia sesion
+     * @return void renderiza la vista de login o la pagina de inicio si se ha iniciado sesion
+     */
+    public function login():void{
         if (isset($_SESSION['identity'])){
            header("Location: " . BASE_URL);
            exit();
@@ -61,7 +66,12 @@ class usuarioController{
         }
             $this->pages->render('usuario/login');
     }
-    public function registro(){
+
+    /**
+     * funcion que muestra la vista de registro y si viene por post comprueba los datos y si son correctos crea el usuario
+     * @return void
+     */
+    public function registro():void{
         if (isset($_SESSION['identity'])){
             header("Location: " . BASE_URL);
             exit();
@@ -101,7 +111,12 @@ class usuarioController{
         }
         $this->pages->render('usuario/registro');
     }
-    public function logout(){
+
+    /**
+     * cierra la sesion del usuario
+     * @return void redirige a la pagina de inicio
+     */
+    public function logout():void{
         if (!isset($_SESSION['identity'])){
             header("Location: " . BASE_URL);
             exit();
@@ -110,5 +125,95 @@ class usuarioController{
         utils::deleteSession('editandoProducto');
         header("Location: " . BASE_URL);
     }
+
+    /**
+     * muestra la vista de gestion de usuarios y si se le pasa un rol muestra los usuarios de ese rol
+     * @param $rol string el rol de los usuarios a mostrar
+     * @return void renderiza la vista de gestion de usuarios
+     */
+    public function muestraGestionUsuarios($rol=null):void{
+        if (!isset($_SESSION['identity'])or $_SESSION['identity']['rol']!='admin'){
+            $this->pages->render('producto/muestraInicio', ['error' => 'No tienes permisos para acceder a esta pagina']);
+            exit();
+        }
+        if(!isset($rol) or $rol=='all'){
+            $this->pages->render('usuario/gestionUsuarios');
+            exit();
+        }else{
+            $rol=ValidationUtils::sanidarStringFiltro($rol);
+            if ($rol=='admin' or $rol=='user'){
+                $usuarios=$this->usuarioService->getUsuariosPorRol($rol);
+            }else{
+                $this->pages->render('producto/muestraInicio', ['error' => 'Ha ocurrido un error inesperado']);
+            }
+        }
+        if (is_string($usuarios)){
+            $this->pages->render('usuario/gestionUsuarios', ['error' => $usuarios]);
+            exit();
+        }
+        $this->pages->render('usuario/gestionUsuarios', ['usuarios' => $usuarios]);
+    }
+    public static function obtenerUsuarios(){
+        $usuarioService=new usuarioService();
+        return $usuarioService->getUsuarios();
+
+    }
+
+    /**
+     * funcion que cambia el rol de un usuario, no te deja cambiarte el rol a ti mismo
+     * @param $id int el id del usuario a cambiar el rol
+     * @param $rol string el rol al que se va a cambiar
+     * @param $nombre string el nombre del usuario para mostrarlo en el mensaje de exito
+     * @return void renderiza la vista de gestion de usuarios con un mensaje de exito o error
+     */
+    public function cambiarRol($id, $rol, $nombre):void{
+        //comprueba que el usuario sea admin
+        if (!isset($_SESSION['identity'])or $_SESSION['identity']['rol']!='admin'){
+            $this->pages->render('producto/muestraInicio', ['error' => 'No tienes permisos para acceder a esta pagina']);
+            exit();
+        }
+        //valida id
+        $id=ValidationUtils::SVNumero($id);
+        if (!isset($id)){
+            $this->pages->render('producto/muestraInicio', ['error' => 'Ha ocurrido un error inesperado']);
+            exit();
+        }
+        //comprueba que el usuario no se cambie el rol a si mismo
+        if ($id==$_SESSION['identity']['id']){
+            $this->pages->render('usuario/gestionUsuarios', ['error' => 'No puedes cambiarte el rol a ti mismo']);
+            exit();
+        }
+        //sanea rol y nombre
+        $rol=ValidationUtils::sanidarStringFiltro($rol);
+        $nombre=ValidationUtils::sanidarStringFiltro($nombre);
+        //comprueba que el rol sea valido
+        if ($rol=='admin' or $rol=='user'){
+            $usuario=$this->usuarioService->getUsuarioPorId($id);
+            if (is_string($usuario)){
+                $this->pages->render('usuario/gestionUsuarios', ['error' => $usuario]);
+                exit();
+            }
+            //comprueba que el usuario no tenga ya ese rol
+            if ($usuario['rol']==$rol){
+                $this->pages->render('usuario/gestionUsuarios', ['error' => 'El usuario ya tiene ese rol']);
+                exit();
+            }
+            //cambia el rol en la base de datos
+            $update=$this->usuarioService->updateRol($id,$rol);
+            //si hay algun error lo muestra
+            if (is_string($update)){
+                $this->pages->render('usuario/gestionUsuarios', ['error' => $update]);
+                exit();
+            }
+            //si no hay errores muestra un mensaje de exito
+            $this->pages->render('usuario/gestionUsuarios', ['exito' => 'Rol cambiado correctamente a '.$nombre]);
+            exit();
+        //en caso de error en la validacion muestra un mensaje de error
+        }else{
+            $this->pages->render('producto/muestraInicio', ['error' => 'Ha ocurrido un error inesperado']);
+            exit();
+        }
+    }
+
 
 }

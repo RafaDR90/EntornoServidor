@@ -72,4 +72,8 @@ class BaseDeDatos {
     public function rollBack() {
         $this->conexion->rollBack();
     }
+    public function query(string $sql,array $parametros=[]): void{
+        $this->resultado=$this->conexion->prepare($sql);
+        $this->resultado->execute($parametros);
+    }
 }
